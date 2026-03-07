@@ -1,47 +1,47 @@
 {
   "recommended_route": {
-    "route_id": "RT004",
-    "route_name": "Sahara Desert Express",
-    "total_score": 0.83,
+    "route_id": "RT002",
+    "route_name": "Road of a Thousand Kasbahs",
+    "total_score": 0.902,
     "score_breakdown": {
       "difficulty": 1.0,
       "bike_suit": 1.0,
-      "vibe": 0.0,
+      "vibe": 0.68,
       "duration": 1.0,
-      "fuel_safety": 0.8,
+      "fuel_safety": 0.5,
       "season": 1.0
     },
-    "distance_km": 580.0,
+    "distance_km": 320.0,
     "difficulty_level": "easy-intermediate",
-    "recommended_days": "2-3",
-    "why_choose": "Best intro route for new Morocco riders: long, paved, manageable"
+    "recommended_days": "2",
+    "why_choose": "Best pure culture-and-scenery ride for all skill levels"
   },
   "alternative_routes": [
     {
-      "route_id": "RT002",
-      "route_name": "Road of a Thousand Kasbahs",
-      "total_score": 0.8,
+      "route_id": "RT004",
+      "route_name": "Sahara Desert Express",
+      "total_score": 0.851,
       "score_breakdown": {
         "difficulty": 1.0,
         "bike_suit": 1.0,
-        "vibe": 0.0,
+        "vibe": 0.14,
         "duration": 1.0,
-        "fuel_safety": 0.5,
+        "fuel_safety": 0.8,
         "season": 1.0
       },
-      "distance_km": 320.0,
+      "distance_km": 580.0,
       "difficulty_level": "easy-intermediate",
-      "recommended_days": "2",
-      "why_choose": "Best pure culture-and-scenery ride for all skill levels"
+      "recommended_days": "2-3",
+      "why_choose": "Best intro route for new Morocco riders: long, paved, manageable"
     },
     {
       "route_id": "RT003",
       "route_name": "Tizi n'Test Adventure",
-      "total_score": 0.51,
+      "total_score": 0.61,
       "score_breakdown": {
         "difficulty": 0.0,
         "bike_suit": 0.2,
-        "vibe": 0.0,
+        "vibe": 0.667,
         "duration": 1.0,
         "fuel_safety": 0.8,
         "season": 1.0
@@ -54,11 +54,11 @@
     {
       "route_id": "RT001",
       "route_name": "Grand Atlas Circuit",
-      "total_score": 0.33,
+      "total_score": 0.4303,
       "score_breakdown": {
         "difficulty": 0.0,
         "bike_suit": 0.2,
-        "vibe": 0.0,
+        "vibe": 0.669,
         "duration": 0.1,
         "fuel_safety": 0.8,
         "season": 1.0
@@ -72,47 +72,39 @@
   "day_plan": [],
   "food_stops": [
     {
-      "name": "Café Tinguit",
-      "entity_id": "RS003",
+      "name": "Restaurant Chez Mimoun",
+      "entity_id": "RS002",
       "stop_type": "meal",
-      "latitude": 32.681,
-      "longitude": -4.731,
-      "notes": "Moroccan, low"
+      "latitude": 30.918,
+      "longitude": -6.89,
+      "notes": "Moroccan, low-medium"
     }
   ],
   "stay_stops": [
     {
-      "name": "Kasbah Mohayut",
-      "entity_id": "ST005",
+      "name": "Hotel Azoul Ouarzazate",
+      "entity_id": "ST002",
       "stop_type": "sleep",
-      "latitude": 31.103,
-      "longitude": -4.016,
-      "notes": "kasbah_hotel, €60-100"
-    },
-    {
-      "name": "Hotel Ayachi Midelt",
-      "entity_id": "ST011",
-      "stop_type": "sleep",
-      "latitude": 32.683,
-      "longitude": -4.732,
-      "notes": "hotel, €20-35"
+      "latitude": 30.918,
+      "longitude": -6.895,
+      "notes": "hotel, €35-55"
     }
   ],
   "fuel_stops": [
     {
-      "name": "Total Erfoud",
-      "entity_id": "GS003",
+      "name": "Ziz Energie Ouarzazate",
+      "entity_id": "GS002",
       "stop_type": "fuel",
-      "latitude": 31.435,
-      "longitude": -4.232,
-      "notes": "CRITICAL — last fill before Merzouga 53km"
+      "latitude": 30.922,
+      "longitude": -6.888,
+      "notes": "Southern gateway fill point"
     }
   ],
   "weather_warnings": [],
   "safety_notes": [
-    "Ziz Gorge section has sharp tunnels — use lights"
+    "Watch for trucks on N10 blind bends"
   ],
-  "llm_explanation": "[ERROR] Ollama returned status 404",
+  "llm_explanation": "## Morocco Motorcycle Trip: Coastal Charm in 3 Days\n\n**Day 1: Ouarzazate to Tinerhir**\n\n* **Route:** RT002 (Road of a Thousand Kasbahs)\n* **Reason:** Easy-intermediate ride, stunning coastal views, relaxed pace.\n* **Plan:** \n    * Start before 8am from Ouarzazate to reach gorges in good light. \n    * Enjoy the scenic drive along the RT002. \n    * Fuel at Ziz Energie Ouarzazate (SP95, diesel).\n    * Stop for lunch at a roadside cafe along the way. \n    * **Sleep:**  Auberge in Tinerhir (budget/auberge)\n* **Weather:** Sunny, mild temperatures, occasional wind. April weather is pleasant.\n\n**Day 2: Tinerhir to Essaouira**\n\n* **Route:** RT002, connecting to N10 towards Essaouira.\n* **Reason:**  Coastal road, beautiful scenery, and a relaxed pace.\n* **Plan:**\n    * Morning:  Relaxing breakfast at your Auberge. \n    * Drive along the N10 towards Essaouira. \n    * Stop for lunch in a seaside restaurant with ocean views.\n    * **Sleep:** Auberge in Essaouira (budget/auberge).\n* **Weather:**  Sunny, cool winds, occasional showers.  \n\n**Day 3: Essaouira Exploration & Departure**\n\n* **Route:**  Essaouira town, exploring the coast.\n* **Reason:**  Time to soak in Essaouira’s charm and enjoy the coastal breeze.\n* **Plan:**\n    * Enjoy the beaches and explore the medina in the afternoon. \n    * Eat a delicious Moroccan meal for lunch. \n    * Depart Essaouira and return to Ouarzazate.\n\n**Note:**  Always wear appropriate gear and be cautious of trucks on N10. \n\n\n\n",
   "retrieved_context_summary": [
     {
       "chunk_id": "CHK-5166d0adc62b",
@@ -121,32 +113,32 @@
       "snippet": "The N10 between Ouarzazate and Tinerhir is widely considered the most beautiful sustained stretch of paved road in Morocco. Running at 1000–1500m elevation through the pre-Saharan plateau, it threads "
     },
     {
-      "chunk_id": "CHK-8b733f673ae2",
-      "title": "RT004 — Sahara Desert Express",
-      "related_entity_id": "RT004",
-      "snippet": "The N13 from Fès to Merzouga is the great south-running highway of Morocco — long, fast, mostly straight, and dramatically shifting in landscape from green northern plateaus through arid anti-Atlas va"
-    },
-    {
       "chunk_id": "CHK-a7d3379ca397",
       "title": "RT006 — Rif Mountains Loop",
       "related_entity_id": "RT006",
       "snippet": "The Rif Mountains loop is Morocco's most underrated motorcycle circuit. Running from Fès north through Taza and Ketama to Chefchaouen and back via Ouazzane, it explores a completely different Morocco "
     },
     {
-      "chunk_id": "CHK-230256c6ebe5",
-      "title": "PL004 — Merzouga",
-      "related_entity_id": "PL004",
-      "snippet": "Merzouga is the most famous desert stop in Morocco, set beside the immense Erg Chebbi — a sea of golden dunes reaching 150m high. For motorcycle travelers, it is a must-see landmark, but also a logist"
+      "chunk_id": "CHK-af34b837f060",
+      "title": "ST002 — Hotel Azoul Ouarzazate",
+      "related_entity_id": "ST002",
+      "snippet": "The default mid-range hotel for motorcycle travelers in Ouarzazate — everyone who has done the south Morocco circuit seems to have stayed here at least once. The courtyard can accept 6–8 bikes flat on"
     },
     {
-      "chunk_id": "CHK-a805b6f7da65",
-      "title": "RT001 — Grand Atlas Circuit",
-      "related_entity_id": "RT001",
-      "snippet": "The Grand Atlas Circuit is the defining Morocco motorcycle experience — a complete loop from Marrakech that takes riders over the High Atlas, deep into the pre-Saharan desert, through the gorge corrid"
+      "chunk_id": "CHK-c807426cb970",
+      "title": "introduction",
+      "related_entity_id": null,
+      "snippet": "# Morocco Motorcycle Travel Knowledge Base"
+    },
+    {
+      "chunk_id": "CHK-f74530f3cf0f",
+      "title": "PL013 — Chefchaouen",
+      "related_entity_id": "PL013",
+      "snippet": "Chefchaouen, the \"Blue City\" of the Rif Mountains, is one of Morocco's most photographed and most visited small towns. For motorcycle travelers approaching from Fès or the coast, it combines genuine s"
     }
   ],
   "metadata": {
-    "model": "gemma2:9b",
+    "model": "gemma2:2b",
     "total_routes_scored": 4,
     "semantic_chunks_used": 5
   }

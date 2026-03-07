@@ -83,21 +83,14 @@ def build_recommendation_prompt(
 
     if semantic_chunks:
         parts.append("\n=== ADDITIONAL TRAVEL KNOWLEDGE ===")
-        for chunk in semantic_chunks[:5]:
-            parts.append(chunk[:800])
+        for chunk in semantic_chunks[:2]:
+            parts.append(chunk[:200])
 
     parts.append(
         "\n=== TASK ===\n"
-        "Based on all the data above, generate a personalised day-by-day motorcycle "
-        "itinerary for this rider. Include:\n"
-        "1. Which route to take and why it matches their profile\n"
-        "2. Day-by-day plan with start/end places, distances, and ride hours\n"
-        "3. Where to eat (specific restaurant names)\n"
-        "4. Where to sleep (specific accommodation names)\n"
-        "5. Where and when to refuel (specific station names)\n"
-        "6. Weather and safety warnings relevant to their travel month\n"
-        "7. A closing paragraph explaining why this itinerary fits them\n"
-        "Be concise and practical. Use the data provided — do not invent."
+        "Generate a concise day-by-day motorcycle itinerary for this rider.\n"
+        "Include: route choice reason, daily plan, eat/sleep/fuel stops, weather notes.\n"
+        "Be brief and practical. Use only the data provided."
     )
 
     return "\n".join(parts)

@@ -82,6 +82,18 @@ def _score_vibe(route: Route, places: List[Place], profile: UserProfile) -> floa
     if not profile.preferred_vibes or "mixed" in profile.preferred_vibes:
         return 0.7  # neutral
     wanted = set(v.lower() for v in profile.preferred_vibes)
+
+    # ── Synonym / related-vibe expansion ─────────
+    _VIBE_SYNONYMS: Dict[str, List[str]] = {
+        "coastal": ["ocean", "beach", "sea", "atlantic", "mediterranean", "fishing"],
+        "scenic": ["dramatic", "views", "epic views", "canyon", "gorge", "winding road", "high altitude"],
+        "beach": ["coastal", "ocean", "sea", "atlantic", "fishing"],
+        "nature": ["mountain", "gorge", "desert", "oasis", "palmery", "canyon"],
+        "culture": ["authentic", "souks", "kasbah", "medina", "culture", "film"],
+        "adventure": ["adventure", "remote", "wild", "dunes", "erg", "bivouac"],
+        "relaxed": ["calm", "authentic", "transition", "oasis"],
+    }
+
     all_place_ids = set(route.via_place_ids or [])
     if route.start_place_id:
         all_place_ids.add(route.start_place_id)
@@ -90,17 +102,42 @@ def _score_vibe(route: Route, places: List[Place], profile: UserProfile) -> floa
 
     place_map = {p.place_id: p for p in places}
     route_vibes = set()
+    scenic_scores: List[int] = []
     for pid in all_place_ids:
         p = place_map.get(pid)
         if p:
             if p.primary_vibe:
                 route_vibes.add(p.primary_vibe.lower())
             route_vibes.update(v.lower() for v in p.secondary_vibes)
+            if hasattr(p, "scenic_score") and p.scenic_score is not None:
+                scenic_scores.append(p.scenic_score)
 
     if not route_vibes:
         return 0.5
+
+    # Direct overlap
     overlap = wanted & route_vibes
-    return len(overlap) / len(wanted) if wanted else 0.5
+
+    # Expanded overlap via synonyms
+    for w in wanted:
+        if w in overlap:
+            continue
+        synonyms = _VIBE_SYNONYMS.get(w, [])
+        for syn in synonyms:
+            if syn in route_vibes:
+                overlap.add(w)
+                break
+
+    base = len(overlap) / len(wanted) if wanted else 0.5
+
+    # Bonus for high scenic scores when user wants scenic/coastal vibes
+    scenic_vibes = {"scenic", "coastal", "beach", "nature"}
+    if wanted & scenic_vibes and scenic_scores:
+        avg_scenic = sum(scenic_scores) / len(scenic_scores)
+        scenic_bonus = min(0.2, (avg_scenic / 10.0) * 0.2)
+        base = min(1.0, base + scenic_bonus)
+
+    return base
 
 
 def _score_duration(route: Route, profile: UserProfile) -> float:
@@ -293,7 +330,7 @@ class RecommendationEngine:
             additional_preferences=request.additional_preferences,
         )
 
-        llm_text = self._ollama.generate(prompt, system=SYSTEM_PROMPT)
+        llm_text = self._ollama.generate(prompt, system=SYSTEM_PROMPT, max_tokens=512)
 
         # ── Assemble response ────────────────────────
         return RecommendationResponse(

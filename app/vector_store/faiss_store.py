@@ -143,5 +143,17 @@ class VectorStoreService:
         global _index
         return _index.ntotal if _index is not None else 0
 
+    def clear(self) -> None:
+        """Remove all vectors and metadata — fresh start."""
+        global _index, _chunk_meta
+        _index = None
+        _chunk_meta = []
+        # Delete persisted files
+        if self._index_path.exists():
+            self._index_path.unlink()
+        if self._metadata_path.exists():
+            self._metadata_path.unlink()
+        logger.info("Cleared FAISS index and metadata")
+
     def is_ready(self) -> bool:
         return self.total_vectors > 0

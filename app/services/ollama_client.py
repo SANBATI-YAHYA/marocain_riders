@@ -14,7 +14,7 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_TIMEOUT = 120.0  # generous for large generations
+DEFAULT_TIMEOUT = 300.0  # generous for large generations on small models
 
 
 class OllamaClient:
@@ -48,7 +48,11 @@ class OllamaClient:
 
         url = f"{self._base_url}/api/generate"
         try:
-            resp = httpx.post(url, json=payload, timeout=DEFAULT_TIMEOUT)
+            resp = httpx.post(
+                url,
+                json=payload,
+                timeout=httpx.Timeout(DEFAULT_TIMEOUT, connect=10.0),
+            )
             resp.raise_for_status()
             data = resp.json()
             return data.get("response", "")

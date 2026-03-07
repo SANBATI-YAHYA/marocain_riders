@@ -20,7 +20,16 @@ Usage:
 
 import sys
 import json
+import os
 from pathlib import Path
+
+# Fix Windows console encoding
+if sys.platform == 'win32':
+    os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 # Ensure project root on path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -89,6 +98,8 @@ if docs_dir.exists():
             metadata_path=settings.chunk_metadata_path,
             embedding_model=settings.embedding_model,
         )
+        # Clear old index to avoid duplicate vectors on re-runs
+        vs.clear()
         vs.add_chunks(
             chunk_ids=[c.chunk_id for c in chunks],
             texts=[c.chunk_text for c in chunks],
@@ -154,7 +165,7 @@ scored.sort(key=lambda x: x[1], reverse=True)
 print("  Route Rankings:")
 print("  " + "-" * 56)
 for i, (r, score, bd) in enumerate(scored, 1):
-    marker = " ⭐ BEST" if i == 1 else ""
+    marker = " << BEST >>" if i == 1 else ""
     print(f"  #{i}  {r.route_name:<35} Score: {score:.3f}{marker}")
     print(f"       Difficulty: {bd['difficulty']:.2f}  Bike: {bd['bike_suit']:.2f}  "
           f"Vibe: {bd['vibe']:.2f}  Duration: {bd['duration']:.2f}  "
@@ -221,39 +232,39 @@ if response.alternative_routes:
 if response.day_plan:
     print(f"\n  Day-by-Day Plan:")
     for day in response.day_plan:
-        print(f"    Day {day.day_number}: {day.start_place} → {day.end_place} ({day.distance_km}km)")
+        print(f"    Day {day.day_number}: {day.start_place} -> {day.end_place} ({day.distance_km}km)")
         for stop in day.stops:
-            print(f"      📍 {stop.name} — {stop.notes}")
+            print(f"      > {stop.name} -- {stop.notes}")
 
 if response.food_stops:
     print(f"\n  Food Stops:")
     for fs in response.food_stops:
-        print(f"    🍽️  {fs.name} ({fs.notes})")
+        print(f"    [FOOD] {fs.name} ({fs.notes})")
 
 if response.stay_stops:
     print(f"\n  Where to Sleep:")
     for ss in response.stay_stops:
-        print(f"    🛏️  {ss.name} ({ss.notes})")
+        print(f"    [SLEEP] {ss.name} ({ss.notes})")
 
 if response.fuel_stops:
     print(f"\n  Fuel Stops:")
     for gs in response.fuel_stops:
-        print(f"    ⛽ {gs.name} — {gs.notes}")
+        print(f"    [FUEL] {gs.name} -- {gs.notes}")
 
 if response.weather_warnings:
     print(f"\n  Weather Warnings:")
     for w in response.weather_warnings:
-        print(f"    ⚠️  {w}")
+        print(f"    [WARN] {w}")
 
 if response.safety_notes:
     print(f"\n  Safety Notes:")
     for sn in response.safety_notes:
-        print(f"    🔒 {sn}")
+        print(f"    [SAFE] {sn}")
 
 if response.retrieved_context_summary:
     print(f"\n  Semantic Context Used ({len(response.retrieved_context_summary)} chunks):")
     for ctx in response.retrieved_context_summary[:3]:
-        print(f"    📄 [{ctx.title}] {ctx.snippet[:100]}...")
+        print(f"    [DOC] [{ctx.title}] {ctx.snippet[:100]}...")
 
 print(f"\n  LLM Explanation:")
 print("  " + "-" * 56)
