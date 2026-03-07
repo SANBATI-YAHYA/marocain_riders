@@ -1,0 +1,153 @@
+{
+  "recommended_route": {
+    "route_id": "RT004",
+    "route_name": "Sahara Desert Express",
+    "total_score": 0.83,
+    "score_breakdown": {
+      "difficulty": 1.0,
+      "bike_suit": 1.0,
+      "vibe": 0.0,
+      "duration": 1.0,
+      "fuel_safety": 0.8,
+      "season": 1.0
+    },
+    "distance_km": 580.0,
+    "difficulty_level": "easy-intermediate",
+    "recommended_days": "2-3",
+    "why_choose": "Best intro route for new Morocco riders: long, paved, manageable"
+  },
+  "alternative_routes": [
+    {
+      "route_id": "RT002",
+      "route_name": "Road of a Thousand Kasbahs",
+      "total_score": 0.8,
+      "score_breakdown": {
+        "difficulty": 1.0,
+        "bike_suit": 1.0,
+        "vibe": 0.0,
+        "duration": 1.0,
+        "fuel_safety": 0.5,
+        "season": 1.0
+      },
+      "distance_km": 320.0,
+      "difficulty_level": "easy-intermediate",
+      "recommended_days": "2",
+      "why_choose": "Best pure culture-and-scenery ride for all skill levels"
+    },
+    {
+      "route_id": "RT003",
+      "route_name": "Tizi n'Test Adventure",
+      "total_score": 0.51,
+      "score_breakdown": {
+        "difficulty": 0.0,
+        "bike_suit": 0.2,
+        "vibe": 0.0,
+        "duration": 1.0,
+        "fuel_safety": 0.8,
+        "season": 1.0
+      },
+      "distance_km": 300.0,
+      "difficulty_level": "advanced",
+      "recommended_days": "1-2",
+      "why_choose": "The ultimate Morocco mountain pass experience for confident riders"
+    },
+    {
+      "route_id": "RT001",
+      "route_name": "Grand Atlas Circuit",
+      "total_score": 0.33,
+      "score_breakdown": {
+        "difficulty": 0.0,
+        "bike_suit": 0.2,
+        "vibe": 0.0,
+        "duration": 0.1,
+        "fuel_safety": 0.8,
+        "season": 1.0
+      },
+      "distance_km": 1450.0,
+      "difficulty_level": "intermediate",
+      "recommended_days": "7-10",
+      "why_choose": "The complete Morocco south experience: mountains, valleys, gorges, desert"
+    }
+  ],
+  "day_plan": [],
+  "food_stops": [
+    {
+      "name": "Café Tinguit",
+      "entity_id": "RS003",
+      "stop_type": "meal",
+      "latitude": 32.681,
+      "longitude": -4.731,
+      "notes": "Moroccan, low"
+    }
+  ],
+  "stay_stops": [
+    {
+      "name": "Kasbah Mohayut",
+      "entity_id": "ST005",
+      "stop_type": "sleep",
+      "latitude": 31.103,
+      "longitude": -4.016,
+      "notes": "kasbah_hotel, €60-100"
+    },
+    {
+      "name": "Hotel Ayachi Midelt",
+      "entity_id": "ST011",
+      "stop_type": "sleep",
+      "latitude": 32.683,
+      "longitude": -4.732,
+      "notes": "hotel, €20-35"
+    }
+  ],
+  "fuel_stops": [
+    {
+      "name": "Total Erfoud",
+      "entity_id": "GS003",
+      "stop_type": "fuel",
+      "latitude": 31.435,
+      "longitude": -4.232,
+      "notes": "CRITICAL — last fill before Merzouga 53km"
+    }
+  ],
+  "weather_warnings": [],
+  "safety_notes": [
+    "Ziz Gorge section has sharp tunnels — use lights"
+  ],
+  "llm_explanation": "[ERROR] Ollama returned status 404",
+  "retrieved_context_summary": [
+    {
+      "chunk_id": "CHK-5166d0adc62b",
+      "title": "RT002 — Road of a Thousand Kasbahs",
+      "related_entity_id": "RT002",
+      "snippet": "The N10 between Ouarzazate and Tinerhir is widely considered the most beautiful sustained stretch of paved road in Morocco. Running at 1000–1500m elevation through the pre-Saharan plateau, it threads "
+    },
+    {
+      "chunk_id": "CHK-8b733f673ae2",
+      "title": "RT004 — Sahara Desert Express",
+      "related_entity_id": "RT004",
+      "snippet": "The N13 from Fès to Merzouga is the great south-running highway of Morocco — long, fast, mostly straight, and dramatically shifting in landscape from green northern plateaus through arid anti-Atlas va"
+    },
+    {
+      "chunk_id": "CHK-a7d3379ca397",
+      "title": "RT006 — Rif Mountains Loop",
+      "related_entity_id": "RT006",
+      "snippet": "The Rif Mountains loop is Morocco's most underrated motorcycle circuit. Running from Fès north through Taza and Ketama to Chefchaouen and back via Ouazzane, it explores a completely different Morocco "
+    },
+    {
+      "chunk_id": "CHK-230256c6ebe5",
+      "title": "PL004 — Merzouga",
+      "related_entity_id": "PL004",
+      "snippet": "Merzouga is the most famous desert stop in Morocco, set beside the immense Erg Chebbi — a sea of golden dunes reaching 150m high. For motorcycle travelers, it is a must-see landmark, but also a logist"
+    },
+    {
+      "chunk_id": "CHK-a805b6f7da65",
+      "title": "RT001 — Grand Atlas Circuit",
+      "related_entity_id": "RT001",
+      "snippet": "The Grand Atlas Circuit is the defining Morocco motorcycle experience — a complete loop from Marrakech that takes riders over the High Atlas, deep into the pre-Saharan desert, through the gorge corrid"
+    }
+  ],
+  "metadata": {
+    "model": "gemma2:9b",
+    "total_routes_scored": 4,
+    "semantic_chunks_used": 5
+  }
+}
