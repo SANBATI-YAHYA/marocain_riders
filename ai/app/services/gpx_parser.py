@@ -97,7 +97,10 @@ def _project_point_onto_segment(
     """Project *point* onto a segment.
 
     Returns ``((lat, lon), t, distance)`` where ``t`` is the clamped progress
-    ratio along the segment and ``distance`` is the cartesian offset in degrees.
+    ratio along the segment and ``distance`` is the Euclidean offset measured in
+    latitude/longitude degrees. This is intentionally only an approximation for
+    nearest-segment comparison on Morocco-sized route previews, not a real-world
+    ground-distance metric.
     """
     x0, y0 = point
     x1, y1 = line_start

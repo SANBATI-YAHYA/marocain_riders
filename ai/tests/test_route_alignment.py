@@ -58,3 +58,7 @@ def test_align_planned_stops_to_route_geometry_snaps_and_orders_stops():
     assert aligned[1].longitude == -7.0
     assert aligned[2].longitude == -7.0
     assert [stop.estimated_day for stop in aligned] == [1, 2, 3]
+    assert [
+        min(3, max(1, int(stop.km_from_start / 70) + 1))
+        for stop in aligned
+    ] == [stop.estimated_day for stop in aligned]
