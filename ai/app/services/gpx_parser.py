@@ -89,6 +89,29 @@ def _perpendicular_distance(
     return math.hypot(x0 - proj_x, y0 - proj_y)
 
 
+def _project_point_onto_segment(
+    point: Tuple[float, float],
+    line_start: Tuple[float, float],
+    line_end: Tuple[float, float],
+) -> Tuple[Tuple[float, float], float, float]:
+    """Project *point* onto a segment.
+
+    Returns ``((lat, lon), t, distance)`` where ``t`` is the clamped progress
+    ratio along the segment and ``distance`` is the cartesian offset in degrees.
+    """
+    x0, y0 = point
+    x1, y1 = line_start
+    x2, y2 = line_end
+    dx, dy = x2 - x1, y2 - y1
+    if dx == 0 and dy == 0:
+        return (x1, y1), 0.0, math.hypot(x0 - x1, y0 - y1)
+    t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    proj_x = x1 + t * dx
+    proj_y = y1 + t * dy
+    return (proj_x, proj_y), t, math.hypot(x0 - proj_x, y0 - proj_y)
+
+
 def _douglas_peucker(
     coords: List[Tuple[float, float]], epsilon: float
 ) -> List[Tuple[float, float]]:
@@ -133,6 +156,41 @@ def simplify_track(
             break
         epsilon *= 1.8
     return simplified
+
+
+def snap_point_to_polyline(
+    point: Tuple[float, float],
+    polyline: List[Tuple[float, float]],
+) -> Optional[Tuple[float, float, float]]:
+    """Snap a point to the nearest position on a route polyline.
+
+    Returns ``(latitude, longitude, km_from_start)`` or ``None`` when the
+    polyline cannot be projected.
+    """
+    if len(polyline) < 2:
+        return None
+
+    best_match: Optional[Tuple[float, float, float, float]] = None
+    cum_km = 0.0
+
+    for start, end in zip(polyline, polyline[1:]):
+        seg_km = _haversine_km(start[0], start[1], end[0], end[1])
+        snapped, ratio, distance = _project_point_onto_segment(point, start, end)
+        km_from_start = cum_km + seg_km * ratio
+
+        if best_match is None or distance < best_match[3]:
+            best_match = (snapped[0], snapped[1], km_from_start, distance)
+
+        cum_km += seg_km
+
+    if best_match is None:
+        return None
+
+    return (
+        round(best_match[0], 6),
+        round(best_match[1], 6),
+        round(best_match[2], 1),
+    )
 
 
 # ── public service ────────────────────────────────────
