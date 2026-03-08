@@ -11,8 +11,9 @@ This script:
   1. Ingests the JSON knowledge base into SQLite
   2. Ingests text docs and builds FAISS vector index
   3. Runs the scoring engine for Yahya's profile
-  4. Calls the LLM (Ollama) if available, or shows mock output
-  5. Prints the full recommendation
+  4. Plans stops deterministically (GPX-driven)
+  5. Calls the LLM to explain the pre-built plan
+  6. Prints the full grounded recommendation
 
 Usage:
     python scripts/test_yahya.py
@@ -57,11 +58,11 @@ settings = get_settings()
 conn = get_connection(settings.sqlite_db_path)
 
 print("=" * 60)
-print("  MOROCCO MOTO RECOMMENDER — Test for Yahya Sanbati")
+print("  MOROCCO MOTO RECOMMENDER v2 - Yahya Sanbati")
 print("=" * 60)
 
 # ── Step 1: Ingest JSON KB ───────────────────────
-print("\n[1/4] Ingesting JSON knowledge base...")
+print("\n[1/5] Ingesting JSON knowledge base...")
 place_repo = PlaceRepository(conn)
 route_repo = RouteRepository(conn)
 segment_repo = RouteSegmentRepository(conn)
@@ -83,7 +84,7 @@ else:
     sys.exit(1)
 
 # ── Step 2: Ingest text & build vectors ──────────
-print("\n[2/4] Ingesting text docs & building vector index...")
+print("\n[2/5] Ingesting text docs & building vector index...")
 text_svc = TextIngestionService(conn=conn)
 docs_dir = settings.text_docs_dir
 
@@ -98,7 +99,6 @@ if docs_dir.exists():
             metadata_path=settings.chunk_metadata_path,
             embedding_model=settings.embedding_model,
         )
-        # Clear old index to avoid duplicate vectors on re-runs
         vs.clear()
         vs.add_chunks(
             chunk_ids=[c.chunk_id for c in chunks],
@@ -120,18 +120,18 @@ else:
 # ══════════════════════════════════════════════════
 #  Yahya's Profile
 # ══════════════════════════════════════════════════
-print("\n[3/4] Building Yahya's rider profile...")
+print("\n[3/5] Building Yahya's rider profile...")
 
 yahya_profile = UserProfile(
-    rider_experience="beginner",       # 21yo, likely newer rider
-    bike_type="scooter",               # CP7 is a scooter-class bike
-    group_size=1,                      # solo
-    budget_per_day_eur=30,             # budget-friendly
-    trip_duration_days=3,              # short trip for a young rider
-    preferred_vibes=["coastal", "scenic"],  # loves beach!
+    rider_experience="beginner",
+    bike_type="scooter",
+    group_size=1,
+    budget_per_day_eur=30,
+    trip_duration_days=3,
+    preferred_vibes=["coastal", "scenic"],
     sleep_preference="budget/auberge",
-    daily_ride_km_tolerance=120,       # scooter comfort range
-    travel_month="April",             # good weather month
+    daily_ride_km_tolerance=120,
+    travel_month="April",
     country_of_origin="Morocco",
 )
 
@@ -139,7 +139,7 @@ print(f"""
   Rider: Yahya Sanbati (21 years)
   Bike: CP7 (scooter)
   Experience: {yahya_profile.rider_experience}
-  Budget: €{yahya_profile.budget_per_day_eur}/day
+  Budget: EUR{yahya_profile.budget_per_day_eur}/day
   Duration: {yahya_profile.trip_duration_days} days
   Vibes: {', '.join(yahya_profile.preferred_vibes)}
   Sleep: {yahya_profile.sleep_preference}
@@ -150,7 +150,7 @@ print(f"""
 # ══════════════════════════════════════════════════
 #  Step 3: Score all routes
 # ══════════════════════════════════════════════════
-print("[3/4] Scoring all routes for Yahya's profile...\n")
+print("[3/5] Scoring all routes for Yahya's profile...\n")
 
 all_places = place_repo.get_all()
 all_routes = route_repo.get_all()
@@ -167,15 +167,15 @@ print("  " + "-" * 56)
 for i, (r, score, bd) in enumerate(scored, 1):
     marker = " << BEST >>" if i == 1 else ""
     print(f"  #{i}  {r.route_name:<35} Score: {score:.3f}{marker}")
-    print(f"       Difficulty: {bd['difficulty']:.2f}  Bike: {bd['bike_suit']:.2f}  "
-          f"Vibe: {bd['vibe']:.2f}  Duration: {bd['duration']:.2f}  "
+    print(f"       Diff: {bd['difficulty']:.2f}  Bike: {bd['bike_suit']:.2f}  "
+          f"Vibe: {bd['vibe']:.2f}  Dur: {bd['duration']:.2f}  "
           f"Fuel: {bd['fuel_safety']:.2f}  Season: {bd['season']:.2f}")
 
 # ══════════════════════════════════════════════════
-#  Step 4: Full recommendation (with LLM if available)
+#  Step 4: Ollama health check
 # ══════════════════════════════════════════════════
 print(f"\n{'='*60}")
-print("  [4/4] Running full recommendation pipeline...")
+print("  [4/5] Checking Ollama & model availability...")
 print(f"{'='*60}")
 
 ollama = OllamaClient(
@@ -184,13 +184,26 @@ ollama = OllamaClient(
 )
 
 ollama_ok = ollama.is_reachable()
-print(f"\n  Ollama reachable: {ollama_ok}")
+model_ok = ollama.is_model_available() if ollama_ok else False
+print(f"\n  Ollama reachable:  {ollama_ok}")
+print(f"  Model available:   {model_ok} ({settings.ollama_model})")
+if ollama_ok and not model_ok:
+    available = ollama.list_models()
+    print(f"  Available models:  {available}")
+    print(f"  --> Run:  ollama pull {settings.ollama_model}")
 if not ollama_ok:
-    print("  (LLM explanation will show a placeholder — start Ollama for full output)")
+    print("  (LLM explanation will be a fallback message)")
+
+# ══════════════════════════════════════════════════
+#  Step 5: Full recommendation pipeline
+# ══════════════════════════════════════════════════
+print(f"\n{'='*60}")
+print("  [5/5] Running full recommendation pipeline...")
+print(f"{'='*60}")
 
 request = RecommendationRequest(
     user_profile=yahya_profile,
-    additional_preferences="I love the beach and coastal roads. I want a relaxed trip with ocean views and good food by the sea.",
+    additional_preferences="I love the beach and coastal roads. Relaxed trip with good food.",
 )
 
 engine = RecommendationEngine(
@@ -229,13 +242,31 @@ if response.alternative_routes:
     for alt in response.alternative_routes:
         print(f"    - {alt.route_name} (score: {alt.total_score:.3f}, {alt.distance_km}km)")
 
+# ── Vibe match notes (new) ───────────────────────
+if response.vibe_match_notes:
+    print(f"\n  Vibe Match Notes:")
+    for note in response.vibe_match_notes:
+        print(f"    [NOTE] {note}")
+
+# ── Day plan ─────────────────────────────────────
 if response.day_plan:
     print(f"\n  Day-by-Day Plan:")
     for day in response.day_plan:
         print(f"    Day {day.day_number}: {day.start_place} -> {day.end_place} ({day.distance_km}km)")
         for stop in day.stops:
-            print(f"      > {stop.name} -- {stop.notes}")
+            print(f"      [{stop.stop_type.upper()}] {stop.name} -- {stop.notes or ''}")
+else:
+    print("\n  Day plan: (none built)")
 
+# ── Planned stop points (new, map-ready) ─────────
+if response.stop_points:
+    print(f"\n  Planned Stop Points ({len(response.stop_points)}):")
+    for sp in response.stop_points:
+        coords = f"({sp.latitude:.3f}, {sp.longitude:.3f})" if sp.latitude else "(no coords)"
+        print(f"    [{sp.stop_type.upper():7s}] {sp.name:<30s} day {sp.estimated_day}  "
+              f"{sp.priority:8s}  {coords}  {sp.reason[:60]}")
+
+# ── Legacy flat lists ────────────────────────────
 if response.food_stops:
     print(f"\n  Food Stops:")
     for fs in response.food_stops:
@@ -262,22 +293,23 @@ if response.safety_notes:
         print(f"    [SAFE] {sn}")
 
 if response.retrieved_context_summary:
-    print(f"\n  Semantic Context Used ({len(response.retrieved_context_summary)} chunks):")
+    print(f"\n  Semantic Context ({len(response.retrieved_context_summary)} chunks, route-filtered):")
     for ctx in response.retrieved_context_summary[:3]:
-        print(f"    [DOC] [{ctx.title}] {ctx.snippet[:100]}...")
+        print(f"    [{ctx.related_entity_id or '?'}] {ctx.snippet[:80]}...")
 
 print(f"\n  LLM Explanation:")
 print("  " + "-" * 56)
-explanation = response.llm_explanation or "No LLM output (Ollama not available)"
-# Print with wrapping
+explanation = response.llm_explanation or "No LLM output"
 for line in explanation.split("\n"):
     print(f"  {line}")
+
+print(f"\n  Metadata: {response.metadata}")
 
 print(f"\n{'='*60}")
 print("  TEST COMPLETE")
 print(f"{'='*60}")
 
-# Save full response as JSON for inspection
+# Save full response as JSON
 output_path = PROJECT_ROOT / "test_output_yahya.json"
 with open(output_path, "w", encoding="utf-8") as f:
     json.dump(response.model_dump(), f, indent=2, ensure_ascii=False, default=str)

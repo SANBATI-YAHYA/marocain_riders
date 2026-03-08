@@ -1,0 +1,426 @@
+{
+  "recommended_route": {
+    "route_id": "RT002",
+    "route_name": "Road of a Thousand Kasbahs",
+    "total_score": 0.8978,
+    "score_breakdown": {
+      "difficulty": 1.0,
+      "bike_suit": 1.0,
+      "vibe": 0.652,
+      "duration": 1.0,
+      "fuel_safety": 0.5,
+      "season": 1.0
+    },
+    "distance_km": 320.0,
+    "difficulty_level": "easy-intermediate",
+    "recommended_days": "2",
+    "why_choose": "Best pure culture-and-scenery ride for all skill levels"
+  },
+  "alternative_routes": [
+    {
+      "route_id": "RT004",
+      "route_name": "Sahara Desert Express",
+      "total_score": 0.847,
+      "score_breakdown": {
+        "difficulty": 1.0,
+        "bike_suit": 1.0,
+        "vibe": 0.113,
+        "duration": 1.0,
+        "fuel_safety": 0.8,
+        "season": 1.0
+      },
+      "distance_km": 580.0,
+      "difficulty_level": "easy-intermediate",
+      "recommended_days": "2-3",
+      "why_choose": "Best intro route for new Morocco riders: long, paved, manageable"
+    },
+    {
+      "route_id": "RT003",
+      "route_name": "Tizi n'Test Adventure",
+      "total_score": 0.609,
+      "score_breakdown": {
+        "difficulty": 0.0,
+        "bike_suit": 0.2,
+        "vibe": 0.66,
+        "duration": 1.0,
+        "fuel_safety": 0.8,
+        "season": 1.0
+      },
+      "distance_km": 300.0,
+      "difficulty_level": "advanced",
+      "recommended_days": "1-2",
+      "why_choose": "The ultimate Morocco mountain pass experience for confident riders"
+    },
+    {
+      "route_id": "RT001",
+      "route_name": "Grand Atlas Circuit",
+      "total_score": 0.4265,
+      "score_breakdown": {
+        "difficulty": 0.0,
+        "bike_suit": 0.2,
+        "vibe": 0.644,
+        "duration": 0.1,
+        "fuel_safety": 0.8,
+        "season": 1.0
+      },
+      "distance_km": 1450.0,
+      "difficulty_level": "intermediate",
+      "recommended_days": "7-10",
+      "why_choose": "The complete Morocco south experience: mountains, valleys, gorges, desert"
+    }
+  ],
+  "day_plan": [
+    {
+      "day_number": 1,
+      "start_place": "Ouarzazate",
+      "end_place": "Boumalne Dadès",
+      "distance_km": 160.0,
+      "ride_hours": null,
+      "difficulty": "easy-intermediate",
+      "stops": [
+        {
+          "name": "Ziz Energie Ouarzazate",
+          "entity_id": "GS002",
+          "stop_type": "fuel",
+          "latitude": 30.922,
+          "longitude": -6.888,
+          "notes": "Route-recommended fuel station"
+        },
+        {
+          "name": "Station Nationale Boumalne",
+          "entity_id": "GS005",
+          "stop_type": "fuel",
+          "latitude": 31.373,
+          "longitude": -5.976,
+          "notes": "Route-recommended fuel station"
+        },
+        {
+          "name": "Restaurant Chez Mimoun",
+          "entity_id": "RS002",
+          "stop_type": "meal",
+          "latitude": 30.918,
+          "longitude": -6.89,
+          "notes": "Route-recommended restaurant"
+        },
+        {
+          "name": "Route safety note",
+          "entity_id": null,
+          "stop_type": "warning",
+          "latitude": null,
+          "longitude": null,
+          "notes": "Watch for trucks on N10 blind bends"
+        },
+        {
+          "name": "Hotel Azoul Ouarzazate",
+          "entity_id": "ST002",
+          "stop_type": "sleep",
+          "latitude": 30.918,
+          "longitude": -6.895,
+          "notes": "Overnight stop end of day 1"
+        }
+      ],
+      "narrative": null,
+      "weather_warnings": []
+    },
+    {
+      "day_number": 2,
+      "start_place": "Boumalne Dadès",
+      "end_place": "Tinerhir",
+      "distance_km": 160.0,
+      "ride_hours": null,
+      "difficulty": "easy-intermediate",
+      "stops": [
+        {
+          "name": "Auberge Restaurant Vallée des Roses",
+          "entity_id": "RS004",
+          "stop_type": "meal",
+          "latitude": 31.368,
+          "longitude": -5.977,
+          "notes": "Route-recommended restaurant"
+        },
+        {
+          "name": "Kasbah Café des Roses",
+          "entity_id": "RS005",
+          "stop_type": "meal",
+          "latitude": 31.061,
+          "longitude": -6.553,
+          "notes": "Route-recommended restaurant"
+        },
+        {
+          "name": "Dades Gorge",
+          "entity_id": "PL006",
+          "stop_type": "scenic",
+          "latitude": 31.523,
+          "longitude": -6.017,
+          "notes": "Scenic stop (score 10/10): gorge"
+        },
+        {
+          "name": "Auberge Dar Ahlam Palmeraie",
+          "entity_id": "ST003",
+          "stop_type": "sleep",
+          "latitude": 31.062,
+          "longitude": -6.555,
+          "notes": "Overnight stop end of day 2"
+        },
+        {
+          "name": "Todra Gorge",
+          "entity_id": "PL005",
+          "stop_type": "scenic",
+          "latitude": 31.591,
+          "longitude": -5.6,
+          "notes": "Scenic stop (score 10/10): gorge"
+        }
+      ],
+      "narrative": null,
+      "weather_warnings": []
+    }
+  ],
+  "food_stops": [
+    {
+      "name": "Restaurant Chez Mimoun",
+      "entity_id": "RS002",
+      "stop_type": "meal",
+      "latitude": 30.918,
+      "longitude": -6.89,
+      "notes": "Moroccan, low-medium"
+    },
+    {
+      "name": "Auberge Restaurant Vallée des Roses",
+      "entity_id": "RS004",
+      "stop_type": "meal",
+      "latitude": 31.368,
+      "longitude": -5.977,
+      "notes": "Moroccan, low"
+    },
+    {
+      "name": "Kasbah Café des Roses",
+      "entity_id": "RS005",
+      "stop_type": "meal",
+      "latitude": 31.061,
+      "longitude": -6.553,
+      "notes": "Moroccan, low"
+    }
+  ],
+  "stay_stops": [
+    {
+      "name": "Hotel Azoul Ouarzazate",
+      "entity_id": "ST002",
+      "stop_type": "sleep",
+      "latitude": 30.918,
+      "longitude": -6.895,
+      "notes": "hotel, €35-55"
+    },
+    {
+      "name": "Auberge Dar Ahlam Palmeraie",
+      "entity_id": "ST003",
+      "stop_type": "sleep",
+      "latitude": 31.062,
+      "longitude": -6.555,
+      "notes": "auberge, €25-45"
+    }
+  ],
+  "fuel_stops": [
+    {
+      "name": "Ziz Energie Ouarzazate",
+      "entity_id": "GS002",
+      "stop_type": "fuel",
+      "latitude": 30.922,
+      "longitude": -6.888,
+      "notes": "Southern gateway fill point"
+    },
+    {
+      "name": "Station Nationale Boumalne",
+      "entity_id": "GS005",
+      "stop_type": "fuel",
+      "latitude": 31.373,
+      "longitude": -5.976,
+      "notes": "Good N10 fill-up between Ouarzazate and Tinerhir"
+    }
+  ],
+  "stop_points": [
+    {
+      "stop_id": "fuel-1",
+      "stop_type": "fuel",
+      "name": "Ziz Energie Ouarzazate",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "GS002",
+      "latitude": 30.922,
+      "longitude": -6.888,
+      "reason": "Route-recommended fuel station",
+      "priority": "high",
+      "estimated_day": 1,
+      "notes": "Southern gateway fill point",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "fuel-2",
+      "stop_type": "fuel",
+      "name": "Station Nationale Boumalne",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "GS005",
+      "latitude": 31.373,
+      "longitude": -5.976,
+      "reason": "Route-recommended fuel station",
+      "priority": "high",
+      "estimated_day": 1,
+      "notes": "Good N10 fill-up between Ouarzazate and Tinerhir",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "meal-1",
+      "stop_type": "meal",
+      "name": "Restaurant Chez Mimoun",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "RS002",
+      "latitude": 30.918,
+      "longitude": -6.89,
+      "reason": "Route-recommended restaurant",
+      "priority": "normal",
+      "estimated_day": 1,
+      "notes": "Moroccan, low-medium",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "warn-1",
+      "stop_type": "warning",
+      "name": "Route safety note",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": null,
+      "latitude": null,
+      "longitude": null,
+      "reason": "Watch for trucks on N10 blind bends",
+      "priority": "normal",
+      "estimated_day": 1,
+      "notes": "",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "sleep-1",
+      "stop_type": "sleep",
+      "name": "Hotel Azoul Ouarzazate",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "ST002",
+      "latitude": 30.918,
+      "longitude": -6.895,
+      "reason": "Overnight stop end of day 1",
+      "priority": "high",
+      "estimated_day": 1,
+      "notes": "hotel, €35-55",
+      "km_from_start": 120.0
+    },
+    {
+      "stop_id": "meal-2",
+      "stop_type": "meal",
+      "name": "Auberge Restaurant Vallée des Roses",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "RS004",
+      "latitude": 31.368,
+      "longitude": -5.977,
+      "reason": "Route-recommended restaurant",
+      "priority": "normal",
+      "estimated_day": 2,
+      "notes": "Moroccan, low",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "meal-3",
+      "stop_type": "meal",
+      "name": "Kasbah Café des Roses",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "RS005",
+      "latitude": 31.061,
+      "longitude": -6.553,
+      "reason": "Route-recommended restaurant",
+      "priority": "normal",
+      "estimated_day": 2,
+      "notes": "Moroccan, low",
+      "km_from_start": 0.0
+    },
+    {
+      "stop_id": "scenic-1",
+      "stop_type": "scenic",
+      "name": "Dades Gorge",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "PL006",
+      "latitude": 31.523,
+      "longitude": -6.017,
+      "reason": "Scenic stop (score 10/10): gorge",
+      "priority": "optional",
+      "estimated_day": 2,
+      "notes": "famous hairpin bends, kasbah photography, village walks",
+      "km_from_start": 213.3
+    },
+    {
+      "stop_id": "sleep-2",
+      "stop_type": "sleep",
+      "name": "Auberge Dar Ahlam Palmeraie",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "ST003",
+      "latitude": 31.062,
+      "longitude": -6.555,
+      "reason": "Overnight stop end of day 2",
+      "priority": "high",
+      "estimated_day": 2,
+      "notes": "auberge, €25-45",
+      "km_from_start": 240.0
+    },
+    {
+      "stop_id": "scenic-2",
+      "stop_type": "scenic",
+      "name": "Todra Gorge",
+      "route_id": "RT002",
+      "segment_id": null,
+      "related_entity_id": "PL005",
+      "latitude": 31.591,
+      "longitude": -5.6,
+      "reason": "Scenic stop (score 10/10): gorge",
+      "priority": "optional",
+      "estimated_day": 2,
+      "notes": "canyon ride-through, rock climbing, lunch stop",
+      "km_from_start": 266.7
+    }
+  ],
+  "weather_warnings": [],
+  "safety_notes": [
+    "Watch for trucks on N10 blind bends"
+  ],
+  "vibe_match_notes": [
+    "Your preference for 'coastal' could not be fully matched. The selected route offers: canyon, climbing, culture, dades gorge gateway, desert_gateway. This was the best overall fit for your skill level, bike, and trip duration."
+  ],
+  "llm_explanation": "Hey there! This trip is all about enjoying Morocco's incredible scenery and culture. You'll be riding on the iconic Road of a Thousand Kasbahs, a beautiful route with stunning views.  \n\n**Day 1:** You'll start in Ouarzazate and head towards Boumalne Dadès, a beautiful area with stunning gorges and kasbahs.  You'll stop for fuel, a meal, and a good night's sleep in Ouarzazate before continuing to Boumalne Dadès. \n\n**Day 2:**  You'll head to Tinerhir, passing through the Dades Gorge and Todra Gorge, both with incredible rock formations. You'll enjoy a meal in a local restaurant and then spend the night in a charming guesthouse. \n\n**Safety Tips:** \n* Morocco's roads can be busy, so be cautious and follow the rules of the road. \n* Ride defensively and be aware of your surroundings. \n* Check your bike's condition before each day's ride. \n\n\nThis route is perfect for a beginner rider on a budget. You'll be experiencing the best of Morocco's diverse landscape, with a mix of culture, scenery, and food.  Enjoy the ride! \n",
+  "retrieved_context_summary": [
+    {
+      "chunk_id": "CHK-5166d0adc62b",
+      "title": "RT002 — Road of a Thousand Kasbahs",
+      "related_entity_id": "RT002",
+      "snippet": "The N10 between Ouarzazate and Tinerhir is widely considered the most beautiful sustained stretch of paved road in Morocco. Running at 1000–1500m elevation through the pre-Saharan plateau, it threads "
+    },
+    {
+      "chunk_id": "CHK-b16bafa9e21e",
+      "title": "PL008 — Aït Benhaddou",
+      "related_entity_id": "PL008",
+      "snippet": "Aït Benhaddou is the most photographed ksar (fortified village) in Morocco and a UNESCO World Heritage site, serving as a film backdrop for dozens of major productions. For motorcycle travelers, it is"
+    },
+    {
+      "chunk_id": "CHK-af34b837f060",
+      "title": "ST002 — Hotel Azoul Ouarzazate",
+      "related_entity_id": "ST002",
+      "snippet": "The default mid-range hotel for motorcycle travelers in Ouarzazate — everyone who has done the south Morocco circuit seems to have stayed here at least once. The courtyard can accept 6–8 bikes flat on"
+    }
+  ],
+  "metadata": {
+    "model": "gemma2:2b",
+    "total_routes_scored": 4,
+    "semantic_chunks_used": 3,
+    "planned_stops_count": 10
+  }
+}

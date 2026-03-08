@@ -65,6 +65,76 @@ def _nearest_places(
     return [pid for _, pid in hits]
 
 
+# ── Douglas-Peucker line simplification ───────────────
+
+def _perpendicular_distance(
+    point: Tuple[float, float],
+    line_start: Tuple[float, float],
+    line_end: Tuple[float, float],
+) -> float:
+    """Perpendicular distance from *point* to line(line_start→line_end) in degrees.
+
+    Good enough for small-area simplification (Morocco).
+    """
+    x0, y0 = point
+    x1, y1 = line_start
+    x2, y2 = line_end
+    dx, dy = x2 - x1, y2 - y1
+    if dx == 0 and dy == 0:
+        return math.hypot(x0 - x1, y0 - y1)
+    t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    proj_x = x1 + t * dx
+    proj_y = y1 + t * dy
+    return math.hypot(x0 - proj_x, y0 - proj_y)
+
+
+def _douglas_peucker(
+    coords: List[Tuple[float, float]], epsilon: float
+) -> List[Tuple[float, float]]:
+    """Simplify a polyline using the Douglas-Peucker algorithm."""
+    if len(coords) <= 2:
+        return list(coords)
+
+    # Find the point with max distance from the line start→end
+    max_dist = 0.0
+    max_idx = 0
+    for i in range(1, len(coords) - 1):
+        d = _perpendicular_distance(coords[i], coords[0], coords[-1])
+        if d > max_dist:
+            max_dist = d
+            max_idx = i
+
+    if max_dist > epsilon:
+        left = _douglas_peucker(coords[: max_idx + 1], epsilon)
+        right = _douglas_peucker(coords[max_idx:], epsilon)
+        return left[:-1] + right
+    else:
+        return [coords[0], coords[-1]]
+
+
+def simplify_track(
+    points: List[Tuple[float, float]],
+    max_points: int = 800,
+) -> List[Tuple[float, float]]:
+    """Simplify a track to at most *max_points*, preserving shape.
+
+    Uses iterative Douglas-Peucker with increasing epsilon.
+    """
+    if len(points) <= max_points:
+        return points
+
+    # Start with a small epsilon and grow until under budget
+    epsilon = 0.0001  # ~11 m at equator
+    simplified = points
+    for _ in range(30):
+        simplified = _douglas_peucker(points, epsilon)
+        if len(simplified) <= max_points:
+            break
+        epsilon *= 1.8
+    return simplified
+
+
 # ── public service ────────────────────────────────────
 
 class GpxParserService:
@@ -171,6 +241,46 @@ class GpxParserService:
                 segments=segments,
             ))
         return tracks
+
+    # ── route geometry extraction ─────────────────
+
+    def get_route_geometry(
+        self,
+        gpx_name: str,
+        max_points: int = 800,
+    ) -> Optional[List[List[float]]]:
+        """Return simplified [[lat, lng], ...] for a GPX file.
+
+        Looks up the file in the configured GPX directory.
+        Returns *None* if the file is not found.
+        """
+        from app.core.config import get_settings
+        gpx_dir = get_settings().gpx_data_dir
+
+        # Try exact match first
+        target = gpx_dir / gpx_name
+        if not target.exists():
+            # Fallback: find any GPX file (useful when only one exists)
+            candidates = list(gpx_dir.glob("*.gpx"))
+            if len(candidates) == 1:
+                target = candidates[0]
+                logger.info("GPX exact match for '%s' not found; using '%s'", gpx_name, target.name)
+            else:
+                logger.warning("GPX file '%s' not found and %d candidates in %s", gpx_name, len(candidates), gpx_dir)
+                return None
+
+        parsed = self.parse_file(target)
+        all_points: List[Tuple[float, float]] = []
+        for trk in parsed.tracks:
+            for seg in trk.segments:
+                for pt in seg.points:
+                    all_points.append((pt.latitude, pt.longitude))
+
+        if not all_points:
+            return None
+
+        simplified = simplify_track(all_points, max_points=max_points)
+        return [[lat, lng] for lat, lng in simplified]
 
     @staticmethod
     def _extract_route_name(root: ET.Element, tracks: List[GpxTrack]) -> Optional[str]:

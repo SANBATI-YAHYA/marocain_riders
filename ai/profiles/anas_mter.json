@@ -1,0 +1,22 @@
+{
+  "full_name": "anas mter",
+  "age": 24,
+  "country_of_origin": "danemarek",
+  "rider_experience": "expert",
+  "bike_type": "dual-sport",
+  "group_size": 2,
+  "budget_per_day_eur": 60.0,
+  "trip_duration_days": 2,
+  "preferred_vibes": [
+    "adventure"
+  ],
+  "sleep_preference": "budget/auberge",
+  "daily_ride_km_tolerance": 300,
+  "travel_month": "October",
+  "food_preferences": null,
+  "avoidances": null,
+  "road_surface_preference": null,
+  "parking_requirement": null,
+  "start_city": null,
+  "end_city": null
+}

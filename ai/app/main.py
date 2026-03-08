@@ -6,11 +6,14 @@ from __future__ import annotations
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
-from app.api.routes import router
+from app.api.routes import router, run_auto_ingest
 from app.core.config import get_settings
 from app.core.database import close_connection
 
@@ -19,6 +22,9 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
 )
 logger = logging.getLogger(__name__)
+
+# Frontend directory
+_FRONTEND_DIR = Path(__file__).resolve().parents[1] / "frontend"
 
 
 @asynccontextmanager
@@ -29,6 +35,13 @@ async def lifespan(app: FastAPI):
     logger.info("  Ollama: %s (model: %s)", settings.ollama_base_url, settings.ollama_model)
     logger.info("  SQLite: %s", settings.sqlite_db_path)
     logger.info("  FAISS:  %s", settings.vector_store_path)
+
+    # Auto-ingest data on first startup
+    try:
+        run_auto_ingest()
+    except Exception as e:
+        logger.error("Auto-ingest failed: %s", e)
+
     yield
     close_connection()
     logger.info("API shutdown complete.")
@@ -45,7 +58,7 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS — open for local dev / future React frontend
+    # CORS — open for local dev
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -54,7 +67,17 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    # API routes
     app.include_router(router)
+
+    # Serve frontend static files
+    if _FRONTEND_DIR.exists():
+        app.mount("/static", StaticFiles(directory=str(_FRONTEND_DIR)), name="static")
+
+        @app.get("/", include_in_schema=False)
+        async def serve_frontend():
+            return FileResponse(str(_FRONTEND_DIR / "index.html"))
+
     return app
 
 

@@ -12,10 +12,30 @@ class StopSummary(BaseModel):
     """Short description of a recommended stop."""
     name: str
     entity_id: Optional[str] = None
-    stop_type: str  # "meal", "sleep", "fuel", "scenic", "waypoint"
+    stop_type: str  # "meal", "sleep", "fuel", "scenic", "warning", "rest", "waypoint"
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     notes: Optional[str] = None
+
+
+class RouteStopPoint(BaseModel):
+    """A planned stop derived from GPX / segment / entity analysis.
+
+    Richer than StopSummary — designed for frontend map rendering.
+    """
+    stop_id: str
+    stop_type: str                        # fuel | meal | sleep | scenic | warning | rest
+    name: str
+    route_id: str
+    segment_id: Optional[str] = None
+    related_entity_id: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    reason: str = ""
+    priority: str = "normal"              # critical | high | normal | optional
+    estimated_day: int = 1
+    notes: str = ""
+    km_from_start: float = 0.0
 
 
 class DayPlan(BaseModel):
@@ -59,12 +79,22 @@ class RecommendationResponse(BaseModel):
 
     day_plan: List[DayPlan] = Field(default_factory=list)
 
+    # Legacy flat stop lists (kept for backward compat)
     food_stops: List[StopSummary] = Field(default_factory=list)
     stay_stops: List[StopSummary] = Field(default_factory=list)
     fuel_stops: List[StopSummary] = Field(default_factory=list)
 
+    # New: full planned stop points (for map/frontend)
+    stop_points: List[RouteStopPoint] = Field(default_factory=list)
+
+    # Route polyline from GPX: [[lat, lng], [lat, lng], ...]
+    route_polyline: List[List[float]] = Field(default_factory=list)
+
     weather_warnings: List[str] = Field(default_factory=list)
     safety_notes: List[str] = Field(default_factory=list)
+
+    # Vibe match transparency
+    vibe_match_notes: List[str] = Field(default_factory=list)
 
     llm_explanation: Optional[str] = None
     retrieved_context_summary: List[RetrievedContextSummary] = Field(

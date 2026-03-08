@@ -1,0 +1,520 @@
+[
+  {
+    "chunk_id": "CHK-c807426cb970",
+    "text_preview": "# Morocco Motorcycle Travel Knowledge Base",
+    "title": "introduction",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-1e11b71359f6",
+    "text_preview": "> **Purpose:** This knowledge base powers an AI system that generates personalized motorcycle trip recommendations across Morocco. It is structured for RAG (Retrieval-Augmented Generation), vector emb",
+    "title": "Version 1.0 | AI Recommendation System",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-2a6ab4467f42",
+    "text_preview": "| place_id | name | region | province | latitude | longitude | place_type | primary_vibe | secondary_vibes | budget_level | recommended_stay_duration | best_season | altitude_category | road_accessibi",
+    "title": "Places Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-bf844016bb79",
+    "text_preview": "Marrakech is the primary gateway city for motorcycle trips heading south through the High Atlas or southwest toward Agadir and the Atlantic coast. For riders, the city itself is a controlled chaos of ",
+    "title": "PL001 — Marrakech",
+    "related_entity_id": "PL001",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-29d681048af5",
+    "text_preview": "Known internationally as the \"Gateway to the Sahara\" and Morocco's film capital, Ouarzazate is a critical junction town for nearly every southern Morocco motorcycle circuit. At 1135m elevation, it off",
+    "title": "PL002 — Ouarzazate",
+    "related_entity_id": "PL002",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-a89cb335a876",
+    "text_preview": "Zagora sits at the far southern end of the Draa Valley, surrounded by date palm oases and pointing the way toward the Sahara with its famous \"Timbuktu 52 Days\" sign. For motorcycle travelers, it funct",
+    "title": "PL003 — Zagora",
+    "related_entity_id": "PL003",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-230256c6ebe5",
+    "text_preview": "Merzouga is the most famous desert stop in Morocco, set beside the immense Erg Chebbi — a sea of golden dunes reaching 150m high. For motorcycle travelers, it is a must-see landmark, but also a logist",
+    "title": "PL004 — Merzouga",
+    "related_entity_id": "PL004",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-8dcd2654a303",
+    "text_preview": "The Todra Gorge is one of Morocco's most spectacular natural formations — a slot canyon where vertical limestone walls rise 300m either side of a narrow road and shallow river. For motorcycle traveler",
+    "title": "PL005 — Todra Gorge",
+    "related_entity_id": "PL005",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-a3445ac8bde3",
+    "text_preview": "The Dades Gorge is renowned among motorcyclists worldwide for one specific section: the series of extreme hairpin bends at its upper end, where the road twists back on itself six times in under a kilo",
+    "title": "PL006 — Dades Gorge",
+    "related_entity_id": "PL006",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-7935b405fc44",
+    "text_preview": "At 2260m, Tizi n'Tichka is the highest paved road pass in Morocco and the primary route connecting Marrakech to the south. For motorcycle travelers, crossing it is a rite of passage — the road climbs ",
+    "title": "PL007 — Tizi n'Tichka Pass",
+    "related_entity_id": "PL007",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-b16bafa9e21e",
+    "text_preview": "Aït Benhaddou is the most photographed ksar (fortified village) in Morocco and a UNESCO World Heritage site, serving as a film backdrop for dozens of major productions. For motorcycle travelers, it is",
+    "title": "PL008 — Aït Benhaddou",
+    "related_entity_id": "PL008",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-2dfba248d83b",
+    "text_preview": "Midelt is the classic halfway point between Fès and Merzouga, sitting in a broad valley between the Middle Atlas and the Anti-Atlas at 1508m elevation. It is an underrated gem for motorcycle travelers",
+    "title": "PL009 — Midelt",
+    "related_entity_id": "PL009",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-9a7e7377fee7",
+    "text_preview": "Erfoud serves as the last reliable resupply point before the Erg Chebbi desert zone, and as such is an important logistical stop for motorcycle travelers heading to or from Merzouga. The town is known",
+    "title": "PL010 — Erfoud",
+    "related_entity_id": "PL010",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-7717fb758810",
+    "text_preview": "Tinerhir (also spelled Tinghir) is the provincial capital that acts as the gateway town to the Todra Gorge, sitting in a wide and visually spectacular palmery valley. For motorcycle travelers, it is a",
+    "title": "PL011 — Tinerhir",
+    "related_entity_id": "PL011",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-52bd07c12648",
+    "text_preview": "Fès is Morocco's spiritual and intellectual capital, home to the world's oldest continuously operating university and a medieval medina of extraordinary complexity. For motorcycle travelers, Fès is pr",
+    "title": "PL012 — Fès",
+    "related_entity_id": "PL012",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-f74530f3cf0f",
+    "text_preview": "Chefchaouen, the \"Blue City\" of the Rif Mountains, is one of Morocco's most photographed and most visited small towns. For motorcycle travelers approaching from Fès or the coast, it combines genuine s",
+    "title": "PL013 — Chefchaouen",
+    "related_entity_id": "PL013",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-0f4a9bb04f80",
+    "text_preview": "Tizi n'Test (2092m) is the wilder, lonelier, and arguably more rewarding alternative to Tizi n'Tichka. The road connecting Marrakech to Taroudant via the R203 is narrower, less traveled, and more dram",
+    "title": "PL014 — Tizi n'Test Pass",
+    "related_entity_id": "PL014",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-e0f95076e93a",
+    "text_preview": "Taroudant is often called \"Little Marrakech\" — a walled city surrounded by almond and argan orchards in the Souss Valley, with none of Marrakech's mass tourism and all of its essential charm. For moto",
+    "title": "PL015 — Taroudant",
+    "related_entity_id": "PL015",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-ddaf382e8c6a",
+    "text_preview": "Agadir is Morocco's main beach resort city and the country's best-developed coastal urban center south of Casablanca. For motorcycle travelers, it functions primarily as a logistics hub rather than a ",
+    "title": "PL016 — Agadir",
+    "related_entity_id": "PL016",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-64bcb943b579",
+    "text_preview": "Skoura is a large oasis of date palms and ancient kasbahs, located between Ouarzazate and Boumalne Dadès on the N10. It is an off-the-radar gem for motorcycle travelers — most riders blast through on ",
+    "title": "PL017 — Skoura",
+    "related_entity_id": "PL017",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-d4a753dbcc36",
+    "text_preview": "Boumalne Dadès is the town at the entrance of the Dadès Gorge and a reliable service stop on the N10. It sits on a prominent ridge with views down the Dadès Valley in both directions — a genuinely pho",
+    "title": "PL018 — Boumalne Dadès",
+    "related_entity_id": "PL018",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-992f4248a684",
+    "text_preview": "Rissani is a historic oasis town that was the birthplace of the Alaouite dynasty (Morocco's ruling family). For motorcycle travelers, it is the last proper town before Merzouga (40km southeast) and th",
+    "title": "PL019 — Rissani",
+    "related_entity_id": "PL019",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-5631488b51bc",
+    "text_preview": "Msemrir is a small Berber village in the high Dadès Valley, accessible only by piste from either the Todra Gorge plateau road or the upper Dadès Gorge. At 1800m elevation, it is remote, beautiful, and",
+    "title": "PL020 — Msemrir",
+    "related_entity_id": "PL020",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-3c91c2c8009a",
+    "text_preview": "| route_id | route_name | linked_gpx_name | start_place_id | end_place_id | via_place_ids | region | route_type | distance_km | estimated_ride_hours | recommended_days | difficulty_level | bike_type_s",
+    "title": "Routes Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-a805b6f7da65",
+    "text_preview": "The Grand Atlas Circuit is the defining Morocco motorcycle experience — a complete loop from Marrakech that takes riders over the High Atlas, deep into the pre-Saharan desert, through the gorge corrid",
+    "title": "RT001 — Grand Atlas Circuit",
+    "related_entity_id": "RT001",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-5166d0adc62b",
+    "text_preview": "The N10 between Ouarzazate and Tinerhir is widely considered the most beautiful sustained stretch of paved road in Morocco. Running at 1000–1500m elevation through the pre-Saharan plateau, it threads ",
+    "title": "RT002 — Road of a Thousand Kasbahs",
+    "related_entity_id": "RT002",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-92a1a047c0b9",
+    "text_preview": "The Tizi n'Test crossing is the most demanding and most rewarding paved mountain route in Morocco. The R203 from Marrakech to Taroudant climbs from the Haouz Plain through the Ourika Valley approaches",
+    "title": "RT003 — Tizi n'Test Adventure",
+    "related_entity_id": "RT003",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-8b733f673ae2",
+    "text_preview": "The N13 from Fès to Merzouga is the great south-running highway of Morocco — long, fast, mostly straight, and dramatically shifting in landscape from green northern plateaus through arid anti-Atlas va",
+    "title": "RT004 — Sahara Desert Express",
+    "related_entity_id": "RT004",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-d368816c2193",
+    "text_preview": "This route combines coastal Morocco, the agricultural Souss Valley, and the dramatic Tizi n'Test mountain crossing — three completely different Moroccan landscapes in one two-to-three-day circuit. Rid",
+    "title": "RT005 — Atlantic Coast & Anti-Atlas",
+    "related_entity_id": "RT005",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-a7d3379ca397",
+    "text_preview": "The Rif Mountains loop is Morocco's most underrated motorcycle circuit. Running from Fès north through Taza and Ketama to Chefchaouen and back via Ouazzane, it explores a completely different Morocco ",
+    "title": "RT006 — Rif Mountains Loop",
+    "related_entity_id": "RT006",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-4b35749013cc",
+    "text_preview": "| segment_id | route_id | segment_order | segment_name | start_latitude | start_longitude | end_latitude | end_longitude | distance_km | estimated_duration | surface_type | difficulty_level | hazard_n",
+    "title": "Route Segments Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-db2433bb0ecf",
+    "text_preview": "| stay_id | name | place_id | region | latitude | longitude | stay_type | price_range | facilities | motorbike_friendly | secure_parking | hot_shower | breakfast_available | private_room_available | g",
+    "title": "Stays Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-7b62a6b18920",
+    "text_preview": "A polished but unpretentious riad near Bab Doukkala, the western gate of the medina. Positioned on the medina edge where the old city transitions to quieter residential streets — navigable on a large ",
+    "title": "ST001 — Riad Porte Royale, Marrakech",
+    "related_entity_id": "ST001",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-af34b837f060",
+    "text_preview": "The default mid-range hotel for motorcycle travelers in Ouarzazate — everyone who has done the south Morocco circuit seems to have stayed here at least once. The courtyard can accept 6–8 bikes flat on",
+    "title": "ST002 — Hotel Azoul Ouarzazate",
+    "related_entity_id": "ST002",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-31f24d3bded5",
+    "text_preview": "Hidden inside the Skoura palmery on a sandy track accessible from the main N10 (signposted). The last 500m requires slow, careful navigation on sand — heavy loaded bikes benefit from having a second r",
+    "title": "ST003 — Auberge Dar Ahlam Palmeraie, Skoura",
+    "related_entity_id": "ST003",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-28fc23700072",
+    "text_preview": "The most character-filled budget option at the Erg Chebbi dune edge. Julia (French-Moroccan management) runs a guesthouse of legendary reputation among solo moto travelers and backpackers. The terrace",
+    "title": "ST004 — Camping-Auberge Chez Julia, Merzouga",
+    "related_entity_id": "ST004",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-e817c969b572",
+    "text_preview": "Step up in comfort from the basic auberges: proper air conditioning, a tiled pool, WiFi that actually works, and an on-site restaurant with an Erg Chebbi view. The owners are experienced with motorcyc",
+    "title": "ST005 — Kasbah Mohayut, Merzouga",
+    "related_entity_id": "ST005",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-8b862a12f036",
+    "text_preview": "Literally built against the cliff wall inside the Todra Gorge. The walls of the canyon are your view from every room. Cold water only (hot shower option requires booking in advance and a small supplem",
+    "title": "ST006 — Auberge Les Roches Todra",
+    "related_entity_id": "ST006",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-3b3449e6d915",
+    "text_preview": "Clean, functional, honest. No luxury claims, no Instagram-worthy decor — just reliable beds, working showers, a pleasant terrace with Dadès Valley views, and an owner who will keep an eye on your bike",
+    "title": "ST007 — Hotel Salam Boumalne",
+    "related_entity_id": "ST007",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-0e60b0012214",
+    "text_preview": "The reliable midpoint hotel for the classic Fès–Merzouga run. Motorcycle tour groups from Europe regularly use this as their Midelt overnight — the guarded rear parking lot has been purpose-expanded a",
+    "title": "ST011 — Hotel Ayachi Midelt",
+    "related_entity_id": "ST011",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-ffd38c225a85",
+    "text_preview": "| restaurant_id | name | place_id | region | latitude | longitude | cuisine_type | price_level | vibe | biker_friendly | quick_stop_friendly | group_friendly | meal_type | description | ideal_for |\n|-",
+    "title": "Restaurants Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-efc11d2ba875",
+    "text_preview": "The essential pre-climb breakfast stop before Tizi n'Tichka. Located at the Aït Ourir junction on the N9, this roadside café (and every similar one in the town's main street) serves the Moroccan morni",
+    "title": "RS001 — Café-Restaurant Atlas, Aït Ourir",
+    "related_entity_id": "RS001",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-01e27f529330",
+    "text_preview": "An underground recommendation passed between motorcycle travelers for years. Hidden on a side street off the main boulevard (ask locals, it moves occasionally), Chez Mimoun serves slow-cooked tagine f",
+    "title": "RS002 — Restaurant Chez Mimoun, Ouarzazate",
+    "related_entity_id": "RS002",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-9edc4dd74827",
+    "text_preview": "A terrace restaurant elevated slightly above the N10 with a sweeping view down the Dadès Valley. The kitchen runs on tagine and couscous Friday) — nothing extraordinary, but honest cooking and reliabl",
+    "title": "RS004 — Auberge Restaurant Vallée des Roses, Boumalne Dadès",
+    "related_entity_id": "RS004",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-a8cf71a8ceea",
+    "text_preview": "The best thing about this restaurant is not the food (adequate tagines, some international dishes) but where you eat it: a rooftop terrace 20m from the dune edge, watching the Erg Chebbi turn gold, or",
+    "title": "RS009 — Café-Restaurant Erg Chebbi, Merzouga",
+    "related_entity_id": "RS009",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-bc0b5bfe3cda",
+    "text_preview": "| station_id | name | place_id | region | latitude | longitude | fuel_types | open_24h | payment_notes | reliability_notes | air_pump_available | basic_repair_nearby | description |\n|------------|----",
+    "title": "Gas Stations Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-e309351b96e0",
+    "text_preview": "A full-service chain station on the N9 north of Marrakech's main ring road — the most practical fill point before heading south toward Tizi n'Tichka or southwest toward Agadir. Open 24 hours, card pay",
+    "title": "GS001 — Afriquia Marrakech Nord",
+    "related_entity_id": "GS001",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-f8e3304988e8",
+    "text_preview": "The primary fuel stop in Ouarzazate for motorcyclists, located on the main commercial boulevard. Multiple pumps handle the significant volume of transit traffic (tourist buses, 4x4 convoys, local taxi",
+    "title": "GS002 — Ziz Energie Ouarzazate",
+    "related_entity_id": "GS002",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-900a0d4a9c92",
+    "text_preview": "The most critical fuel stop in the entire southern Morocco desert circuit. Erfoud is the last guaranteed fuel source before Merzouga (53km) and before the more isolated piste routes east and south. Th",
+    "title": "GS003 — Total Erfoud",
+    "related_entity_id": "GS003",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-37cb0174333c",
+    "text_preview": "The last fuel stop before the Tizi n'Test crossing, located in Asni village on the R203. Stock levels here are variable — this is a small-capacity rural station, and in peak season (April–May, October",
+    "title": "GS006 — Afriquia Asni",
+    "related_entity_id": "GS006",
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-ac5226099873",
+    "text_preview": "| risk_id | related_route_id | related_place_id | region | season | risk_type | severity | description | rider_advice | |---------|-----------------|-----------------|--------|--------|-----------|---",
+    "title": "Weather Risks Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-9b1e3b1c553e",
+    "text_preview": "The AI recommendation system uses a multi-factor matching process to align route recommendations with rider profiles. Each rider is assessed across several dimensions, and routes, stays, and food stop",
+    "title": "Overview",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-aada5afcdebe",
+    "text_preview": "| variable | type | values | impact |\n|----------|------|--------|--------|\n| rider_experience | categorical | beginner / intermediate / advanced / expert | primary route filter |\n| bike_type | catego",
+    "title": "Profile Input Variables",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-6badbef7a061",
+    "text_preview": "**Rule A1 — Beginner riders (experience = beginner):**\n- Eligible routes: RT002 (Kasbahs Road), RT004 (Sahara Express)\n- Ineligible routes: RT003 (Tizi n'Test), RT006 (Rif Mountains), any route with s",
+    "title": "Rule Set A: Experience-Based Route Filtering",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-56a3409a8c17",
+    "text_preview": "**Rule B1 — Road/sport bikes (touring, naked, sport):**\n- Suitable for: RT001 main circuit (paved sections only), RT002, RT004, RT005 (coastal-valley only)\n- Exclude: any segment with surface_type = p",
+    "title": "Rule Set B: Bike-Type Compatibility",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-28c187ce9357",
+    "text_preview": "**Rule C1 — Budget travelers (≤€30/day):**\n- Stay selection: auberges with shared bathroom, camping options, dorm rooms\n- Recommended stays: ST004 (Chez Julia), ST006 (Les Roches), ST009 (Aoullouz)\n- ",
+    "title": "Rule Set C: Budget-Based Accommodation and Food Selection",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-691afd9c2c6d",
+    "text_preview": "**Rule D1 — Solo riders:**\n- All routes eligible\n- Flag isolation risk for RT003 (no group support on remote sections)\n- Recommend social auberges (ST004, ST006) for solo atmosphere\n- Cell coverage no",
+    "title": "Rule Set D: Group Size Adjustments",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-8a8cdfb7cdb4",
+    "text_preview": "**Rule E1 — Short trips (3-4 days):**\n- Recommend RT002 (Road of Kasbahs — 2 days) or RT004 partial (Fès to Merzouga — 2 days)\n- RT001 in compressed 4-day version possible but tiring; flag pacing risk",
+    "title": "Rule Set E: Trip Duration Optimization",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-c1be570a4f5e",
+    "text_preview": "**Rule F1 — Winter travel (December–February):**\n- Automatically exclude routes with passes above 1800m from recommendation\n- Flag RT001 Tichka crossing: status check required\n- Flag RT003 Tizi n'Test",
+    "title": "Rule Set F: Seasonal Safety Overrides",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-c45964542adc",
+    "text_preview": "The system begins by parsing the rider profile to extract key decision variables:\n- experience_level → filters routes by difficulty\n- bike_type → filters routes by surface compatibility\n- trip_duratio",
+    "title": "Step 1: Profile Parsing and Route Eligibility",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-00585a28b76f",
+    "text_preview": "Once the primary route is selected, the system loads the linked GPX file (linked_gpx_name field) and the route's segment table (Section 3). Segments are loaded in order (segment_order) and analyzed fo",
+    "title": "Step 2: GPX-Based Stop Sequence Construction",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-1295ce4693a5",
+    "text_preview": "For each recommended overnight node, the system:\n1. Filters stays by: place_id match, price_range within budget, secure_parking where required, group_friendly where group_size > 3\n2. Ranks filtered st",
+    "title": "Step 3: Overnight Stop Selection Logic",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-6c6cd8fbc92a",
+    "text_preview": "Food stops are inserted at logical midday points within each day's segment sequence:\n- Prioritize stops where stop_recommendation includes lunch\n- Match biker_friendly = yes AND quick_stop_friendly = ",
+    "title": "Step 4: Food Stop Insertion",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-cb6fb1face74",
+    "text_preview": "The system calculates the cumulative distance between confirmed fuel stations along the route, using nearest_fuel_station_id references in segments:\n- If gap exceeds 85% of estimated bike range → inse",
+    "title": "Step 5: Fuel Planning Integration",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-d79379205cc4",
+    "text_preview": "Before outputting the final itinerary, the system queries the Weather Risks table (Section 7) for:\n- All risk entries where related_route_id matches the selected route\n- All risk entries where related",
+    "title": "Step 6: Weather and Safety Warning Integration",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-66196f053fb4",
+    "text_preview": "The recommendation is output as a structured day-by-day itinerary with the following components per day:\n\n**Day header:** Day number, start place, end place, total distance, estimated ride time, diffi",
+    "title": "Step 7: Final Itinerary Output Structure",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-b87726a6a645",
+    "text_preview": "**Input profile:**\n- Experience: intermediate\n- Bike: BMW F850GS\n- Group: solo\n- Budget: €50/day\n- Trip: 7 days\n- Preferred vibe: desert + adventure\n- Sleep: mid-range auberge\n- Season: October\n\n**Sys",
+    "title": "Example Logic Trace",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-1f17b830986c",
+    "text_preview": "| Draa-Tafilalet | Ouarzazate | 31.047 | -7.130 | heritage_site | culture | UNESCO, ksar, film sets | low | half-day | Sep-May | medium (1000m) | good | all types | 4/5 | 5/10 | 6/10 | 3/10 | ksar vis",
+    "title": "Places Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-d8738146ead6",
+    "text_preview": "Book Merzouga guesthouse by midday; fuel at Erfoud | Ziz Gorge section has sharp tunnels — use lights | Best intro route for new Morocco riders: long, paved, manageable | | RT005 | Atlantic Coast & An",
+    "title": "Routes Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-96488881efd6",
+    "text_preview": "| PL010 | RS008 | ST011 | GS003 | refuel in Erfoud — critical | | SEG010 | RT001 | 10 | Erfoud to Merzouga | 31.434 | -4.235 | 31.101 | -4.013 | 53 | 55 min | paved N13 | easy | last km near dunes: so",
+    "title": "Route Segments Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-4b8635b4d31f",
+    "text_preview": "near Tizi n'Test summit for early starters | adventure riders | | ST010 | Riad Taroudant | PL015 | Souss-Massa | 30.470 | -8.875 | riad | €45-70 | WiFi, breakfast, courtyard garden | yes | nearby guar",
+    "title": "Stays Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-6c0dd3341b67",
+    "text_preview": "is subject to rockfall particularly after rain; loose stones accumulate in blind corners | Ride inside line on blind corners to allow visibility and reaction time; slow down after any rain | | WR012 |",
+    "title": "Weather Risks Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-22031a10819e",
+    "text_preview": "resort, services | medium-high | 1 day | year-round | low (sea level) | excellent | all types | 4/5 | 6/10 | 9/10 | 10/10 | beach, corniche, moto service centers | busy city, bike theft risk | mild al",
+    "title": "Places Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  },
+  {
+    "chunk_id": "CHK-8f051bd89ad1",
+    "text_preview": "gorge section | | SEG019 | RT004 | 3 | Errachidia to Erfoud | 31.929 | -4.424 | 31.434 | -4.235 | 55 | 50 min | paved, good | easy | minimal, crosswinds on plateau | Tafilalet approaches | PL010 | RS0",
+    "title": "Route Segments Table",
+    "related_entity_id": null,
+    "source_file": "places_routes.md"
+  }
+]

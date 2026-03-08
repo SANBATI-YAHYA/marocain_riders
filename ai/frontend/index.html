@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morocco Moto Rider — Trip Planner</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+/* ─── Reset & Base ───────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: #f6ad55; }
+
+/* ─── Layout ─────────────────────────────────────── */
+.app-header {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border-bottom: 3px solid #f6ad55;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.app-header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f6ad55;
+}
+.app-header .subtitle {
+  font-size: 0.85rem;
+  color: #a0aec0;
+}
+
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ─── Sections ───────────────────────────────────── */
+.section {
+  background: #1a202c;
+  border: 1px solid #2d3748;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f6ad55;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-title .num {
+  background: #f6ad55;
+  color: #1a202c;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ─── Form ───────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #2d3748;
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #f6ad55;
+}
+
+.vibes-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.vibes-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  text-transform: none;
+  font-weight: 400;
+  cursor: pointer;
+}
+.vibes-checkboxes input[type="checkbox"] {
+  accent-color: #f6ad55;
+  width: 16px; height: 16px;
+}
+
+/* ─── Buttons ────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: #f6ad55;
+  color: #1a202c;
+}
+.btn-primary:hover:not(:disabled) { background: #ed8936; }
+
+.btn-secondary {
+  background: #4a5568;
+  color: #e2e8f0;
+}
+.btn-secondary:hover:not(:disabled) { background: #718096; }
+
+.btn-large {
+  padding: 0.85rem 2rem;
+  font-size: 1.05rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ─── Profile selector ───────────────────────────── */
+.profile-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.profile-bar select {
+  background: #2d3748;
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  min-width: 220px;
+}
+
+/* ─── Status messages ────────────────────────────── */
+.status-msg {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
+  display: none;
+}
+.status-ok {
+  background: #22543d;
+  color: #9ae6b4;
+  border: 1px solid #276749;
+}
+.status-err {
+  background: #742a2a;
+  color: #feb2b2;
+  border: 1px solid #9b2c2c;
+}
+
+/* ─── Trip description area ──────────────────────── */
+#trip-desc {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* ─── Results ────────────────────────────────────── */
+.result-card {
+  background: #2d3748;
+  border: 1px solid #4a5568;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+.result-card h3 {
+  font-size: 1rem;
+  color: #f6ad55;
+  margin-bottom: 0.6rem;
+}
+.route-hero {
+  border-left: 4px solid #f6ad55;
+  padding-left: 1rem;
+}
+.route-hero .route-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+.route-hero .route-meta {
+  font-size: 0.88rem;
+  color: #a0aec0;
+  margin-top: 0.3rem;
+}
+.route-score {
+  display: inline-block;
+  background: #f6ad55;
+  color: #1a202c;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  margin-left: 0.5rem;
+}
+
+.alt-routes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.alt-chip {
+  background: #1a202c;
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+.alt-chip .alt-name { font-weight: 600; color: #e2e8f0; }
+.alt-chip .alt-score { color: #a0aec0; font-size: 0.8rem; }
+
+.day-card {
+  background: #1a202c;
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+}
+.day-header {
+  font-weight: 600;
+  color: #f6ad55;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+.stop-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.85rem;
+  padding: 0.15rem 0;
+}
+.stop-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  min-width: 54px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.badge-fuel    { background: #744210; color: #fbd38d; }
+.badge-meal    { background: #22543d; color: #9ae6b4; }
+.badge-sleep   { background: #2a4365; color: #90cdf4; }
+.badge-scenic  { background: #553c9a; color: #d6bcfa; }
+.badge-warning { background: #742a2a; color: #feb2b2; }
+.badge-rest    { background: #4a5568; color: #e2e8f0; }
+
+.note-item {
+  font-size: 0.88rem;
+  padding: 0.25rem 0;
+  padding-left: 0.8rem;
+  border-left: 2px solid #4a5568;
+  margin-bottom: 0.3rem;
+}
+.note-warn { border-left-color: #e53e3e; }
+.note-vibe { border-left-color: #9f7aea; }
+
+.llm-text {
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #cbd5e0;
+}
+
+/* ─── Map ────────────────────────────────────────── */
+#map {
+  height: 420px;
+  border-radius: 10px;
+  border: 1px solid #4a5568;
+}
+
+/* ─── Loading overlay ────────────────────────────── */
+.loading-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 17, 23, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  gap: 1rem;
+}
+.loading-overlay.active { display: flex; }
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid #4a5568;
+  border-top-color: #f6ad55;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text {
+  color: #f6ad55;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Hidden helper */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ═══ Header ═══════════════════════════════════ -->
+<header class="app-header">
+  <div>
+    <h1>🏍️ Morocco Moto Rider</h1>
+    <div class="subtitle">AI-powered motorcycle trip planner — local MVP</div>
+  </div>
+</header>
+
+<div class="main-container">
+
+<!-- ═══ Section 1: Profile ═══════════════════════ -->
+<div class="section" id="sec-profile">
+  <div class="section-title"><span class="num">1</span> Rider Profile</div>
+
+  <!-- Existing profile selector -->
+  <div class="profile-bar">
+    <select id="profile-select">
+      <option value="">— New Profile —</option>
+    </select>
+    <button class="btn btn-secondary" onclick="loadSelectedProfile()">Load</button>
+    <button class="btn btn-secondary" onclick="deleteSelectedProfile()">Delete</button>
+  </div>
+
+  <form id="profile-form" class="form-grid" onsubmit="return false;">
+    <div class="form-group">
+      <label>Full Name *</label>
+      <input id="f-name" required placeholder="e.g. Yahya Sanbati">
+    </div>
+    <div class="form-group">
+      <label>Age</label>
+      <input id="f-age" type="number" min="16" max="99" placeholder="e.g. 21">
+    </div>
+    <div class="form-group">
+      <label>Country</label>
+      <input id="f-country" placeholder="e.g. Morocco">
+    </div>
+    <div class="form-group">
+      <label>Rider Experience</label>
+      <select id="f-experience">
+        <option value="beginner" selected>Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+        <option value="expert">Expert</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Bike Type</label>
+      <select id="f-bike">
+        <option value="scooter" selected>Scooter</option>
+        <option value="road/sport">Road / Sport</option>
+        <option value="touring">Touring</option>
+        <option value="adventure">Adventure</option>
+        <option value="dual-sport">Dual-Sport</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Group Size</label>
+      <input id="f-group" type="number" min="1" max="15" value="1">
+    </div>
+    <div class="form-group">
+      <label>Budget (EUR/day)</label>
+      <input id="f-budget" type="number" min="5" max="500" value="60">
+    </div>
+    <div class="form-group">
+      <label>Trip Duration (days)</label>
+      <input id="f-days" type="number" min="1" max="21" value="3">
+    </div>
+    <div class="form-group">
+      <label>Sleep Preference</label>
+      <select id="f-sleep">
+        <option value="budget/auberge">Budget / Auberge</option>
+        <option value="mid-range" selected>Mid-range</option>
+        <option value="comfort">Comfort</option>
+        <option value="camping">Camping</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Daily Ride Tolerance (km)</label>
+      <input id="f-km" type="number" min="50" max="500" value="150">
+    </div>
+    <div class="form-group">
+      <label>Travel Month</label>
+      <select id="f-month">
+        <option value="">— Any —</option>
+        <option value="January">January</option>
+        <option value="February">February</option>
+        <option value="March">March</option>
+        <option value="April">April</option>
+        <option value="May">May</option>
+        <option value="June">June</option>
+        <option value="July">July</option>
+        <option value="August">August</option>
+        <option value="September">September</option>
+        <option value="October">October</option>
+        <option value="November">November</option>
+        <option value="December">December</option>
+      </select>
+    </div>
+    <div class="form-group" style="grid-column: 1 / -1">
+      <label>Preferred Vibes</label>
+      <div class="vibes-checkboxes">
+        <label><input type="checkbox" name="vibe" value="culture"> Culture</label>
+        <label><input type="checkbox" name="vibe" value="adventure"> Adventure</label>
+        <label><input type="checkbox" name="vibe" value="desert"> Desert</label>
+        <label><input type="checkbox" name="vibe" value="coastal"> Coastal</label>
+        <label><input type="checkbox" name="vibe" value="scenic" checked> Scenic</label>
+        <label><input type="checkbox" name="vibe" value="mixed"> Mixed</label>
+      </div>
+    </div>
+  </form>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+    <button class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
+  </div>
+  <div id="save-status" class="status-msg"></div>
+</div>
+
+<!-- ═══ Section 2: Recommendation trigger ════════ -->
+<div class="section" id="sec-recommend">
+  <div class="section-title"><span class="num">2</span> Plan My Ride</div>
+
+  <div id="no-profile-msg" style="color:#a0aec0; font-size:0.9rem;">
+    Save a rider profile first, then come back here to get your recommendation.
+  </div>
+
+  <div id="recommend-area" class="hidden">
+    <p style="color:#a0aec0; font-size:0.9rem; margin-bottom:0.8rem;">
+      Your profile <strong id="active-profile-name" style="color:#f6ad55;"></strong> is loaded.
+      Describe what kind of trip you want right now:
+    </p>
+    <div class="form-group" style="margin-bottom:1rem;">
+      <label>Trip Description</label>
+      <textarea id="trip-desc"
+        placeholder="Example: I want a relaxed 2-day scenic ride with good food and easy roads."></textarea>
+    </div>
+    <button class="btn btn-primary btn-large" onclick="getRecommendation()" id="btn-recommend">
+      🗺️ Get Recommendation
+    </button>
+  </div>
+</div>
+
+<!-- ═══ Section 3: Results ═══════════════════════ -->
+<div class="section hidden" id="sec-results">
+  <div class="section-title"><span class="num">3</span> Your Trip Recommendation</div>
+  <div id="results-content"></div>
+
+  <!-- Map -->
+  <div class="result-card" id="map-card" style="display:none;">
+    <h3>🗺️ Stop Points Map</h3>
+    <div id="map"></div>
+  </div>
+</div>
+
+</div><!-- /main-container -->
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Generating your trip recommendation…</div>
+  <div style="color:#a0aec0; font-size:0.82rem;">This uses a local AI model and may take 30-90 seconds.</div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════
+//  State
+// ══════════════════════════════════════════════════
+const API = '';  // same origin
+let activeProfileId = null;
+let leafletMap = null;
+
+// ══════════════════════════════════════════════════
+//  Profile form helpers
+// ══════════════════════════════════════════════════
+
+function getFormData() {
+  const vibes = [...document.querySelectorAll('input[name="vibe"]:checked')]
+    .map(cb => cb.value);
+  return {
+    full_name: document.getElementById('f-name').value.trim(),
+    age: parseInt(document.getElementById('f-age').value) || null,
+    country_of_origin: document.getElementById('f-country').value.trim() || null,
+    rider_experience: document.getElementById('f-experience').value,
+    bike_type: document.getElementById('f-bike').value,
+    group_size: parseInt(document.getElementById('f-group').value) || 1,
+    budget_per_day_eur: parseFloat(document.getElementById('f-budget').value) || 60,
+    trip_duration_days: parseInt(document.getElementById('f-days').value) || 3,
+    preferred_vibes: vibes.length ? vibes : ['mixed'],
+    sleep_preference: document.getElementById('f-sleep').value,
+    daily_ride_km_tolerance: parseInt(document.getElementById('f-km').value) || 150,
+    travel_month: document.getElementById('f-month').value || null,
+  };
+}
+
+function fillForm(data) {
+  document.getElementById('f-name').value = data.full_name || '';
+  document.getElementById('f-age').value = data.age || '';
+  document.getElementById('f-country').value = data.country_of_origin || '';
+  document.getElementById('f-experience').value = data.rider_experience || 'beginner';
+  document.getElementById('f-bike').value = data.bike_type || 'scooter';
+  document.getElementById('f-group').value = data.group_size || 1;
+  document.getElementById('f-budget').value = data.budget_per_day_eur || 60;
+  document.getElementById('f-days').value = data.trip_duration_days || 3;
+  document.getElementById('f-sleep').value = data.sleep_preference || 'mid-range';
+  document.getElementById('f-km').value = data.daily_ride_km_tolerance || 150;
+  document.getElementById('f-month').value = data.travel_month || '';
+  // vibes
+  document.querySelectorAll('input[name="vibe"]').forEach(cb => {
+    cb.checked = (data.preferred_vibes || []).includes(cb.value);
+  });
+}
+
+function resetForm() {
+  document.getElementById('profile-form').reset();
+  activeProfileId = null;
+  updateRecommendArea();
+  showStatus('save-status', '', '');
+}
+
+function showStatus(elemId, msg, type) {
+  const el = document.getElementById(elemId);
+  el.textContent = msg;
+  el.className = 'status-msg ' + (type === 'ok' ? 'status-ok' : type === 'err' ? 'status-err' : '');
+  el.style.display = msg ? 'block' : 'none';
+}
+
+// ══════════════════════════════════════════════════
+//  Profile CRUD
+// ══════════════════════════════════════════════════
+
+async function refreshProfileList() {
+  try {
+    const res = await fetch(API + '/profiles');
+    const data = await res.json();
+    const sel = document.getElementById('profile-select');
+    // Keep first option
+    sel.innerHTML = '<option value="">— New Profile —</option>';
+    for (const p of data.profiles) {
+      const opt = document.createElement('option');
+      opt.value = p.profile_id;
+      opt.textContent = `${p.full_name} (${p.rider_experience}, ${p.bike_type})`;
+      sel.appendChild(opt);
+    }
+    if (activeProfileId) sel.value = activeProfileId;
+  } catch (e) {
+    console.warn('Could not load profiles', e);
+  }
+}
+
+async function saveProfile() {
+  const data = getFormData();
+  if (!data.full_name) {
+    showStatus('save-status', 'Please enter your name.', 'err');
+    return;
+  }
+  try {
+    const res = await fetch(API + '/profiles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (res.ok) {
+      activeProfileId = result.profile_id;
+      showStatus('save-status', `✓ Profile saved as "${result.profile_id}"`, 'ok');
+      await refreshProfileList();
+      updateRecommendArea();
+    } else {
+      showStatus('save-status', `Error: ${result.detail || 'Save failed'}`, 'err');
+    }
+  } catch (e) {
+    showStatus('save-status', `Network error: ${e.message}`, 'err');
+  }
+}
+
+async function loadSelectedProfile() {
+  const sel = document.getElementById('profile-select');
+  const pid = sel.value;
+  if (!pid) { resetForm(); return; }
+  try {
+    const res = await fetch(API + `/profiles/${pid}`);
+    if (!res.ok) throw new Error('Profile not found');
+    const data = await res.json();
+    fillForm(data);
+    activeProfileId = pid;
+    updateRecommendArea();
+    showStatus('save-status', `Loaded profile: ${data.full_name}`, 'ok');
+  } catch (e) {
+    showStatus('save-status', `Error loading profile: ${e.message}`, 'err');
+  }
+}
+
+async function deleteSelectedProfile() {
+  const sel = document.getElementById('profile-select');
+  const pid = sel.value;
+  if (!pid) return;
+  if (!confirm(`Delete profile "${pid}"?`)) return;
+  try {
+    await fetch(API + `/profiles/${pid}`, { method: 'DELETE' });
+    if (activeProfileId === pid) { activeProfileId = null; resetForm(); }
+    await refreshProfileList();
+    showStatus('save-status', `Deleted profile: ${pid}`, 'ok');
+    updateRecommendArea();
+  } catch (e) {
+    showStatus('save-status', `Error: ${e.message}`, 'err');
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  Recommendation area toggle
+// ══════════════════════════════════════════════════
+
+function updateRecommendArea() {
+  const area = document.getElementById('recommend-area');
+  const msg = document.getElementById('no-profile-msg');
+  const nameEl = document.getElementById('active-profile-name');
+  if (activeProfileId) {
+    area.classList.remove('hidden');
+    msg.style.display = 'none';
+    nameEl.textContent = activeProfileId;
+  } else {
+    area.classList.add('hidden');
+    msg.style.display = 'block';
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  Recommendation request
+// ══════════════════════════════════════════════════
+
+async function getRecommendation() {
+  if (!activeProfileId) return;
+
+  const desc = document.getElementById('trip-desc').value.trim();
+  const btn = document.getElementById('btn-recommend');
+  const loading = document.getElementById('loading');
+
+  btn.disabled = true;
+  loading.classList.add('active');
+
+  try {
+    const res = await fetch(API + '/trip/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        profile_id: activeProfileId,
+        trip_description: desc,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    renderResults(data);
+  } catch (e) {
+    document.getElementById('results-content').innerHTML =
+      `<div class="result-card"><p style="color:#feb2b2">Error: ${e.message}</p></div>`;
+    document.getElementById('sec-results').classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+    loading.classList.remove('active');
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  Render results
+// ══════════════════════════════════════════════════
+
+function renderResults(data) {
+  const container = document.getElementById('results-content');
+  let html = '';
+
+  // ── Recommended route ────────────────
+  if (data.recommended_route) {
+    const r = data.recommended_route;
+    html += `<div class="result-card route-hero">
+      <div class="route-name">${esc(r.route_name)} <span class="route-score">${r.total_score.toFixed(2)}</span></div>
+      <div class="route-meta">
+        ${r.distance_km ? r.distance_km + ' km' : ''} · 
+        ${r.difficulty_level || ''} · 
+        ${r.recommended_days ? r.recommended_days + ' days' : ''}</div>
+      ${r.why_choose ? `<p style="margin-top:0.5rem; font-size:0.9rem; color:#cbd5e0;">${esc(r.why_choose)}</p>` : ''}
+    </div>`;
+  }
+
+  // ── Alternative routes ───────────────
+  if (data.alternative_routes && data.alternative_routes.length) {
+    html += `<div class="result-card"><h3>Alternative Routes</h3><div class="alt-routes">`;
+    for (const a of data.alternative_routes) {
+      html += `<div class="alt-chip">
+        <div class="alt-name">${esc(a.route_name)}</div>
+        <div class="alt-score">${a.total_score.toFixed(2)} · ${a.distance_km || '?'}km · ${a.difficulty_level || ''}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  // ── Vibe match notes ─────────────────
+  if (data.vibe_match_notes && data.vibe_match_notes.length) {
+    html += `<div class="result-card"><h3>Vibe Match Notes</h3>`;
+    for (const n of data.vibe_match_notes) {
+      html += `<div class="note-item note-vibe">${esc(n)}</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // ── Day plan ─────────────────────────
+  if (data.day_plan && data.day_plan.length) {
+    html += `<div class="result-card"><h3>Day-by-Day Plan</h3>`;
+    for (const day of data.day_plan) {
+      html += `<div class="day-card">
+        <div class="day-header">Day ${day.day_number}: ${esc(day.start_place)} → ${esc(day.end_place)}
+          ${day.distance_km ? `<span style="font-weight:400; color:#a0aec0;"> (${day.distance_km} km)</span>` : ''}</div>`;
+      if (day.stops && day.stops.length) {
+        for (const s of day.stops) {
+          const badge = badgeClass(s.stop_type);
+          html += `<div class="stop-row">
+            <span class="stop-badge ${badge}">${esc(s.stop_type)}</span>
+            <span>${esc(s.name)}</span>
+            ${s.notes ? `<span style="color:#a0aec0; font-size:0.8rem;">— ${esc(s.notes)}</span>` : ''}
+          </div>`;
+        }
+      }
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // ── Planned stop points (table) ──────
+  if (data.stop_points && data.stop_points.length) {
+    html += `<div class="result-card"><h3>Planned Stop Points (${data.stop_points.length})</h3>`;
+    for (const sp of data.stop_points) {
+      const badge = badgeClass(sp.stop_type);
+      const coords = (sp.latitude && sp.longitude)
+        ? `<span style="color:#718096; font-size:0.78rem;">(${sp.latitude.toFixed(3)}, ${sp.longitude.toFixed(3)})</span>` : '';
+      html += `<div class="stop-row">
+        <span class="stop-badge ${badge}">${esc(sp.stop_type)}</span>
+        <span>${esc(sp.name)}</span>
+        <span style="color:#a0aec0; font-size:0.8rem;">day ${sp.estimated_day} · ${sp.priority}</span>
+        ${coords}
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  // ── Safety notes + weather ───────────
+  const notes = [
+    ...(data.safety_notes || []).map(n => ({ text: n, warn: true })),
+    ...(data.weather_warnings || []).map(n => ({ text: n, warn: true })),
+  ];
+  if (notes.length) {
+    html += `<div class="result-card"><h3>⚠️ Safety & Weather</h3>`;
+    for (const n of notes) {
+      html += `<div class="note-item note-warn">${esc(n.text)}</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // ── LLM explanation ──────────────────
+  if (data.llm_explanation) {
+    html += `<div class="result-card"><h3>🤖 AI Trip Explanation</h3>
+      <div class="llm-text">${esc(data.llm_explanation)}</div></div>`;
+  }
+
+  // ── Metadata ─────────────────────────
+  if (data.metadata && Object.keys(data.metadata).length) {
+    html += `<div class="result-card"><h3>Metadata</h3>
+      <pre style="font-size:0.8rem; color:#a0aec0; overflow-x:auto;">${esc(JSON.stringify(data.metadata, null, 2))}</pre></div>`;
+  }
+
+  container.innerHTML = html;
+  document.getElementById('sec-results').classList.remove('hidden');
+
+  // ── Map ──────────────────────────────
+  renderMap(data.stop_points || [], data.route_polyline || []);
+
+  // Scroll to results
+  document.getElementById('sec-results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function badgeClass(type) {
+  const t = (type || '').toLowerCase();
+  if (t === 'fuel') return 'badge-fuel';
+  if (t === 'meal') return 'badge-meal';
+  if (t === 'sleep') return 'badge-sleep';
+  if (t === 'scenic') return 'badge-scenic';
+  if (t === 'warning') return 'badge-warning';
+  return 'badge-rest';
+}
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+// ══════════════════════════════════════════════════
+//  Leaflet map
+// ══════════════════════════════════════════════════
+
+function renderMap(stopPoints, routePolyline) {
+  const mapCard = document.getElementById('map-card');
+  const withCoords = stopPoints.filter(sp => sp.latitude && sp.longitude);
+  const hasPolyline = routePolyline && routePolyline.length >= 2;
+
+  if (withCoords.length === 0 && !hasPolyline) {
+    mapCard.style.display = 'none';
+    return;
+  }
+
+  mapCard.style.display = 'block';
+
+  // Destroy old map
+  if (leafletMap) { leafletMap.remove(); leafletMap = null; }
+
+  leafletMap = L.map('map');
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 18,
+  }).addTo(leafletMap);
+
+  const allBoundsItems = [];
+
+  // ── 1. Draw GPX route polyline (the real trajectory) ──
+  if (hasPolyline) {
+    const routeLine = L.polyline(routePolyline, {
+      color: '#f6ad55',
+      weight: 3.5,
+      opacity: 0.85,
+      lineJoin: 'round',
+      lineCap: 'round',
+    }).addTo(leafletMap);
+    allBoundsItems.push(routeLine);
+  } else if (withCoords.length >= 2) {
+    // Fallback: dashed connector between stop points
+    const latlngs = withCoords.map(sp => [sp.latitude, sp.longitude]);
+    const fallbackLine = L.polyline(latlngs, {
+      color: '#f6ad55',
+      weight: 2,
+      opacity: 0.5,
+      dashArray: '8,6',
+    }).addTo(leafletMap);
+    allBoundsItems.push(fallbackLine);
+  }
+
+  // ── 2. Stop markers on top ──
+  const colorMap = {
+    fuel:    '#fbd38d',
+    meal:    '#9ae6b4',
+    sleep:   '#90cdf4',
+    scenic:  '#d6bcfa',
+    warning: '#feb2b2',
+    rest:    '#e2e8f0',
+  };
+
+  for (const sp of withCoords) {
+    const color = colorMap[sp.stop_type] || '#f6ad55';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:${color};
+        width:14px; height:14px;
+        border-radius:50%;
+        border:2px solid #1a202c;
+        box-shadow:0 0 4px rgba(0,0,0,0.5);
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+
+    const marker = L.marker([sp.latitude, sp.longitude], { icon, zIndexOffset: 1000 })
+      .addTo(leafletMap)
+      .bindPopup(`<b>${esc(sp.name)}</b><br>
+        <span style="text-transform:uppercase; font-size:0.75rem;">${sp.stop_type}</span> · Day ${sp.estimated_day}<br>
+        <em>${esc(sp.reason || '')}</em>`);
+    allBoundsItems.push(marker);
+  }
+
+  // ── 3. Fit bounds to all items ──
+  if (allBoundsItems.length) {
+    const group = L.featureGroup(allBoundsItems);
+    leafletMap.fitBounds(group.getBounds().pad(0.1));
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  Init
+// ══════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  refreshProfileList();
+  updateRecommendArea();
+});
+</script>
+</body>
+</html>

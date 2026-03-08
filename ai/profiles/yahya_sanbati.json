@@ -1,0 +1,22 @@
+{
+  "full_name": "Yahya Sanbati",
+  "age": 21,
+  "country_of_origin": "Morocco",
+  "rider_experience": "beginner",
+  "bike_type": "scooter",
+  "group_size": 1,
+  "budget_per_day_eur": 30.0,
+  "trip_duration_days": 3,
+  "preferred_vibes": [
+    "scenic"
+  ],
+  "sleep_preference": "budget/auberge",
+  "daily_ride_km_tolerance": 120,
+  "travel_month": "August",
+  "food_preferences": null,
+  "avoidances": null,
+  "road_surface_preference": null,
+  "parking_requirement": null,
+  "start_city": null,
+  "end_city": null
+}

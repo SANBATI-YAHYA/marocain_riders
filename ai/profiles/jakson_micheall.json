@@ -1,0 +1,22 @@
+{
+  "full_name": "jakson micheall",
+  "age": 20,
+  "country_of_origin": "morocco",
+  "rider_experience": "expert",
+  "bike_type": "dual-sport",
+  "group_size": 5,
+  "budget_per_day_eur": 50.0,
+  "trip_duration_days": 7,
+  "preferred_vibes": [
+    "coastal"
+  ],
+  "sleep_preference": "camping",
+  "daily_ride_km_tolerance": 500,
+  "travel_month": "December",
+  "food_preferences": null,
+  "avoidances": null,
+  "road_surface_preference": null,
+  "parking_requirement": null,
+  "start_city": null,
+  "end_city": null
+}
