@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from app.api.dependencies import (
     get_gpx_parser_service,
     get_json_ingestion_service,
-    get_ollama_client,
+    get_gemini_client,
     get_recommendation_engine,
     get_text_ingestion_service,
     get_vector_store,
@@ -53,7 +53,7 @@ def _safe_filename(name: str) -> str:
 async def health():
     """System health check."""
     settings = _settings()
-    ollama = get_ollama_client()
+    gemini = get_gemini_client()
     vs = get_vector_store()
 
     db_ready = False
@@ -67,7 +67,7 @@ async def health():
     return HealthResponse(
         status="ok",
         version="1.0.0",
-        ollama_reachable=ollama.is_reachable(),
+        llm_reachable=gemini.is_reachable(),
         db_ready=db_ready,
         vector_store_ready=vs.is_ready(),
     )

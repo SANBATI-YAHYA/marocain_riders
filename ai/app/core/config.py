@@ -22,9 +22,9 @@ load_dotenv(PROJECT_ROOT / ".env")
 class Settings:
     """Immutable-ish bag of application settings."""
 
-    # Ollama
-    ollama_base_url: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-    ollama_model: str = os.getenv("OLLAMA_MODEL", "gemma2:9b")
+    # Gemini
+    gemini_api_key: str = os.getenv("GEMINI_API_KEY", "AIzaSyBi6MV6yjhzJOtTEzsx5sXzZE_KLSqUpPs")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
 
     # Embedding
     embedding_model: str = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")

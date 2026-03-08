@@ -23,7 +23,7 @@ from app.repositories.entity_repos import (
 from app.services.json_ingestion import JsonIngestionService
 from app.services.text_ingestion import TextIngestionService
 from app.services.gpx_parser import GpxParserService
-from app.services.ollama_client import OllamaClient
+from app.services.gemini_client import GeminiClient
 from app.services.recommendation_engine import RecommendationEngine
 from app.vector_store.faiss_store import VectorStoreService
 
@@ -91,9 +91,9 @@ def get_vector_store() -> VectorStoreService:
         embedding_model=s.embedding_model,
     )
 
-def get_ollama_client() -> OllamaClient:
+def get_gemini_client() -> GeminiClient:
     s = _settings()
-    return OllamaClient(base_url=s.ollama_base_url, model=s.ollama_model)
+    return GeminiClient(api_key=s.gemini_api_key, model=s.gemini_model)
 
 def get_recommendation_engine() -> RecommendationEngine:
     return RecommendationEngine(
@@ -105,5 +105,5 @@ def get_recommendation_engine() -> RecommendationEngine:
         gas_station_repo=get_gas_station_repo(),
         weather_risk_repo=get_weather_risk_repo(),
         vector_store=get_vector_store(),
-        ollama=get_ollama_client(),
+        llm=get_gemini_client(),
     )

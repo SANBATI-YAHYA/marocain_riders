@@ -38,7 +38,7 @@ from app.repositories.entity_repos import (
     WeatherRiskRepository,
 )
 from app.vector_store.faiss_store import VectorStoreService
-from app.services.ollama_client import OllamaClient
+from app.services.gemini_client import GeminiClient
 from app.services.prompt_builder import SYSTEM_PROMPT, build_recommendation_prompt
 from app.services.stop_planner import StopPlanner, PlannedStop
 
@@ -288,7 +288,7 @@ class RecommendationEngine:
         gas_station_repo: GasStationRepository,
         weather_risk_repo: WeatherRiskRepository,
         vector_store: VectorStoreService,
-        ollama: OllamaClient,
+        llm: GeminiClient,
     ) -> None:
         self._place_repo = place_repo
         self._route_repo = route_repo
@@ -298,7 +298,7 @@ class RecommendationEngine:
         self._gas_station_repo = gas_station_repo
         self._weather_risk_repo = weather_risk_repo
         self._vector_store = vector_store
-        self._ollama = ollama
+        self._llm = llm
 
     # ── main pipeline ────────────────────────────────
 
@@ -453,7 +453,7 @@ class RecommendationEngine:
             additional_preferences=request.additional_preferences,
         )
 
-        llm_text = self._ollama.generate(prompt, system=SYSTEM_PROMPT)
+        llm_text = self._llm.generate(prompt, system=SYSTEM_PROMPT)
 
         # ── 9. Safety notes ──────────────────────────
         safety_notes: List[str] = []
@@ -499,7 +499,7 @@ class RecommendationEngine:
             llm_explanation=llm_text,
             retrieved_context_summary=context_summaries,
             metadata={
-                "model": self._ollama._model,
+                "model": self._llm._model_name,
                 "total_routes_scored": len(scored),
                 "semantic_chunks_used": len(filtered_hits),
                 "planned_stops_count": len(planned_stops),

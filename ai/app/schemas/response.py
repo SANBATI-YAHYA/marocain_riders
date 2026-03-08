@@ -107,7 +107,7 @@ class RecommendationResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str = "ok"
     version: str = "1.0.0"
-    ollama_reachable: bool = False
+    llm_reachable: bool = False
     db_ready: bool = False
     vector_store_ready: bool = False
 

@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
     """Startup / shutdown hooks."""
     settings = get_settings()
     logger.info("Morocco Moto Recommendation API starting…")
-    logger.info("  Ollama: %s (model: %s)", settings.ollama_base_url, settings.ollama_model)
+    logger.info("  Gemini model: %s", settings.gemini_model)
     logger.info("  SQLite: %s", settings.sqlite_db_path)
     logger.info("  FAISS:  %s", settings.vector_store_path)
 
