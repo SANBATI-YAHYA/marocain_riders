@@ -13,6 +13,7 @@ KEY DESIGN RULES:
 
 from __future__ import annotations
 
+from dataclasses import replace
 import logging
 from typing import Dict, List, Optional, Tuple
 
@@ -37,6 +38,7 @@ from app.repositories.entity_repos import (
     StayRepository,
     WeatherRiskRepository,
 )
+from app.services.gpx_parser import GpxParserService, snap_point_to_polyline
 from app.vector_store.faiss_store import VectorStoreService
 from app.services.ollama_client import OllamaClient
 from app.services.prompt_builder import SYSTEM_PROMPT, build_recommendation_prompt
@@ -162,6 +164,16 @@ def _score_duration(route: Route, profile: UserProfile) -> float:
     return 1.0
 
 
+def _parse_recommended_days(raw: Optional[str]) -> int:
+    """Return the lower bound of a route's recommended day range."""
+    if not raw:
+        return 1
+    try:
+        return int(str(raw).replace(" ", "").split("-")[0])
+    except (ValueError, IndexError):
+        return 1
+
+
 def _score_fuel_safety(route: Route) -> float:
     gap = route.fuel_gap_km or 0
     if gap <= 60:
@@ -271,6 +283,58 @@ def _detect_vibe_mismatch(
     return notes
 
 
+def align_planned_stops_to_route_geometry(
+    planned_stops: List[PlannedStop],
+    route_polyline: List[List[float]],
+    daily_km: int,
+    max_days: int,
+) -> List[PlannedStop]:
+    """Snap mapped stops onto the route geometry and order them by progress."""
+    geometry = [
+        (float(point[0]), float(point[1]))
+        for point in route_polyline
+        if isinstance(point, (list, tuple)) and len(point) >= 2
+    ]
+    if len(geometry) < 2:
+        return planned_stops
+
+    day_cap = max(1, max_days)
+    aligned: List[PlannedStop] = []
+    for stop in planned_stops:
+        if stop.latitude is None or stop.longitude is None:
+            aligned.append(stop)
+            continue
+
+        snapped = snap_point_to_polyline((stop.latitude, stop.longitude), geometry)
+        if not snapped:
+            aligned.append(stop)
+            continue
+
+        snapped_lat, snapped_lon, snapped_km = snapped
+        estimated_day = stop.estimated_day
+        if daily_km > 0:
+            estimated_day = min(day_cap, max(1, int(snapped_km / daily_km) + 1))
+
+        aligned.append(
+            replace(
+                stop,
+                latitude=snapped_lat,
+                longitude=snapped_lon,
+                km_from_start=snapped_km,
+                estimated_day=estimated_day,
+            )
+        )
+
+    return sorted(
+        aligned,
+        key=lambda stop: (
+            stop.estimated_day,
+            stop.km_from_start if stop.latitude is not None and stop.longitude is not None else float("inf"),
+            stop.stop_id,
+        ),
+    )
+
+
 # ═══════════════════════════════════════════════════════
 #  Main engine
 # ═══════════════════════════════════════════════════════
@@ -331,6 +395,7 @@ class RecommendationEngine:
         fuel_stations = self._gas_station_repo.get_by_ids(top_route.recommended_fuel_station_ids)
         weather_risks = self._weather_risk_repo.get_for_route(top_route.route_id)
         weather_warnings = self._format_weather_warnings(weather_risks, profile.travel_month)
+        route_polyline = self._load_route_polyline(top_route, places)
 
         # ── 3. Deterministic stop planning ───────────
         planner = StopPlanner(
@@ -344,6 +409,16 @@ class RecommendationEngine:
             profile=profile,
         )
         planned_stops = planner.plan_all_stops()
+        if route_polyline:
+            planned_stops = align_planned_stops_to_route_geometry(
+                planned_stops=planned_stops,
+                route_polyline=route_polyline,
+                daily_km=profile.daily_ride_km_tolerance or 150,
+                max_days=min(
+                    _parse_recommended_days(top_route.recommended_days),
+                    profile.trip_duration_days or _parse_recommended_days(top_route.recommended_days),
+                ),
+            )
 
         # Convert to response models
         stop_points = [
@@ -465,24 +540,6 @@ class RecommendationEngine:
         # Deduplicate
         safety_notes = list(dict.fromkeys(safety_notes))
 
-        # ── 10. Load GPX route polyline ───────────────
-        route_polyline: List[List[float]] = []
-        if top_route.linked_gpx_name:
-            try:
-                from app.services.gpx_parser import GpxParserService
-                gpx_svc = GpxParserService(places=places)
-                geometry = gpx_svc.get_route_geometry(
-                    top_route.linked_gpx_name, max_points=800
-                )
-                if geometry:
-                    route_polyline = geometry
-                    logger.info(
-                        "Loaded GPX polyline for '%s': %d points (simplified)",
-                        top_route.linked_gpx_name, len(route_polyline),
-                    )
-            except Exception as e:
-                logger.warning("Could not load GPX geometry: %s", e)
-
         # ── Assemble response ────────────────────────
         return RecommendationResponse(
             recommended_route=recommended,
@@ -506,6 +563,26 @@ class RecommendationEngine:
                 "route_polyline_points": len(route_polyline),
             },
         )
+
+    def _load_route_polyline(self, route: Route, places: List[Place]) -> List[List[float]]:
+        """Load the simplified GPX geometry for a route when available."""
+        if not route.linked_gpx_name:
+            return []
+
+        try:
+            gpx_svc = GpxParserService(places=places)
+            geometry = gpx_svc.get_route_geometry(route.linked_gpx_name, max_points=800)
+            if geometry:
+                logger.info(
+                    "Loaded GPX polyline for '%s': %d points (simplified)",
+                    route.linked_gpx_name,
+                    len(geometry),
+                )
+                return geometry
+        except Exception as e:
+            logger.warning("Could not load GPX geometry: %s", e)
+
+        return []
 
     # ═══════════════════════════════════════════════════
     #  Day plan builder
